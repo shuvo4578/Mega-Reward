@@ -1,301 +1,277 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Earning App</title>
-    <!-- Monetag Ad Script -->
-    <script async src="//whephiwums.com/sdk.js" data-zone="9290936" data-sdk="show_9290936"></script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Reward System</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background: #1f1f1f;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 300px;
+        }
+        .container h1 {
+            font-size: 20px;
+            color: green;
+            margin-bottom: 10px;
+        }
+        .developer {
+            font-size: 12px;
+            background-color: green;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .stats {
+            margin: 10px 0;
+        }
+        .stats p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .progress-circle {
+            width: 80px;
+            height: 80px;
+            border: 4px solid green;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px auto;
+        }
+        .progress-circle span {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .buttons button {
+            width: 90%;
+            margin: 5px 0;
+            padding: 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background: green;
+            cursor: pointer;
+        }
+        .buttons button:hover {
+            background: darkorange;
+        }
+        .withdraw-section {
+            margin-top: 20px;
+            display: none;
+            padding: 20px;
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .withdraw-section input, .withdraw-section select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 2px solid #555;
+            background-color: #333;
+            color: #fff;
+        }
+        .withdraw-section input:focus, .withdraw-section select:focus {
+            border-color: green;
+            outline: none;
+        }
+        .withdraw-section button {
+            background-color: green;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            margin-top: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .withdraw-section button:hover {
+            background-color: #006400;
+        }
+        #withdraw-status {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .user-info {
+            margin: 10px 0;
+        }
+        .user-info p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+    </style>
+
 </head>
 <body>
-    <div style="font-family: Arial, sans-serif; background-color: #f5f5f5; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 60px;">
-        <div style="width: 90%; max-width: 400px; margin-top: 20px; flex-grow: 1;">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <h1 style="font-size: 28px; color: #6b48ff; margin: 0;">My Earning App</h1>
-            </div>
+    <div class="container">
+        <h1>MoneTag Telegram Bot</h1>
+        <div class="developer" onclick="window.location.href='https://t.me/nsmtech_bd'">Developer by NSM TECH BD</div>
+        
+        <!-- Display User Info -->
+        <div class="user-info">
+            <p>Welcome, <span id="user-name"></span></p>
+        </div>
 
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h2 style="margin: 0; font-size: 18px; color: #333;">Earn Points</h2>
-                <button style="background-color: #6b48ff; color: #fff; border: none; border-radius: 15px; padding: 5px 10px; cursor: pointer; font-size: 14px;" onclick="resetApp()">Refresh</button>
-            </div>
-            <div style="background: linear-gradient(135deg, #6b48ff 0%, #a48bff 100%); color: #fff; text-align: center; border-radius: 15px; padding: 20px; margin-bottom: 15px;">
-                <h2 style="margin: 0; font-size: 24px;">Shoikat Hossain's Balance</h2>
-                <h1 id="points-balance" style="margin: 10px 0; font-size: 36px; color: #ffd700;">0 Points</h1>
-                <div style="display: flex; justify-content: space-between;">
-                    <div style="text-align: center;">
-                        <span style="display: block; font-size: 16px;">Rewards</span>
-                        <span id="rewards" style="display: block; font-size: 16px;">+0 🎁</span>
-                    </div>
-                    <div style="text-align: center;">
-                        <span style="display: block; font-size: 16px;">Ads Watched</span>
-                        <span id="ads-watched" style="display: block; font-size: 16px;">+0 📺</span>
-                    </div>
-                    <div style="text-align: center;">
-                        <span style="display: block; font-size: 16px;">Total Clicks</span>
-                        <span id="total-clicks" style="display: block; font-size: 16px;">0 👆</span>
-                    </div>
-                </div>
-            </div>
+        <div class="stats">
+            <p>Watched Ads: <span id="watched-ads">0</span></p>
+            <p>Earned Points: <span id="earned-points">0</span></p>
+        </div>
+        <div class="progress-circle">
+            <span id="ads-progress">0%</span>
+        </div>
+        <div class="buttons">
+            <button id="watch-ad-btn" onclick="watchAd()">Watch Ad</button>
+            <button id="auto-ad-btn" onclick="startAutoAds()">Auto Show Ads</button>
+            <button id="stop-auto-btn" onclick="stopAutoAds()">Stop Auto Ads</button>
+        
+        </div>
 
-            <div id="home" class="section" style="display: block;">
-                <h3 style="text-align: center; margin: 10px 0;">Quick Rewards</h3>
-                <div style="background-color: #fff; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                    <p style="margin: 5px 0; color: #666;">Earn Rewards with Ads</p>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
-                        <span style="font-size: 16px; font-weight: bold;">+1000 Points</span>
-                        <span style="font-size: 16px; font-weight: bold; color: #00c853;">$0.50 USD</span>
-                    </div>
-                    <div style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin: 10px 0;">
-                        <div id="progress-bar-1" class="progress-bar" style="height: 10px; background-color: #6b48ff; border-radius: 5px; width: 0%; transition: width 0.3s;"></div>
-                    </div>
-                    <button class="show-ad" style="padding: 10px 15px; border: none; border-radius: 20px; font-size: 14px; cursor: pointer; width: 100%; text-align: center; background-color: #6b48ff; color: #fff;" id="show-ad-1" onclick="watchAd(1000, 1, 'rewarded_interstitial')" aria-label="Watch ad to earn 1000 points">Show Ad</button>
-                </div>
-                <div style="background-color: #fff; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                    <p style="margin: 5px 0; color: #666;">Earn Rewards with Ads</p>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
-                        <span style="font-size: 16px; font-weight: bold;">+1000 Points</span>
-                        <span style="font-size: 16px; font-weight: bold; color: #00c853;">$0.50 USD</span>
-                    </div>
-                    <div style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin: 10px 0;">
-                        <div id="progress-bar-2" class="progress-bar" style="height: 10px; background-color: #6b48ff; border-radius: 5px; width: 0%; transition: width 0.3s;"></div>
-                    </div>
-                    <button class="show-ad" style="padding: 10px 15px; border: none; border-radius: 20px; font-size: 14px; cursor: pointer; width: 100%; text-align: center; background-color: #6b48ff; color: #fff;" id="show-ad-2" onclick="watchAd(1000, 2, 'rewarded_interstitial')" aria-label="Watch ad to earn 1000 points">Show Ad</button>
-                </div>
-                <div style="background-color: #fff; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                    <p style="margin: 5px 0; color: #666;">Earn Rewards with Ads</p>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
-                        <span style="font-size: 16px; font-weight: bold;">+800 Points</span>
-                        <span style="font-size: 16px; font-weight: bold; color: #00c853;">$0.40 USD</span>
-                    </div>
-                    <div style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin: 10px 0;">
-                        <div id="progress-bar-3" class="progress-bar" style="height: 10px; background-color: #6b48ff; border-radius: 5px; width: 0%; transition: width 0.3s;"></div>
-                    </div>
-                    <button class="show-ad" style="padding: 10px 15px; border: none; border-radius: 20px; font-size: 14px; cursor: pointer; width: 100%; text-align: center; background-color: #6b48ff; color: #fff;" id="show-ad-3" onclick="watchAd(800, 3, 'rewarded_interstitial')" aria-label="Watch ad to earn 800 points">Show Ad</button>
-                </div>
-                <div style="background-color: #fff; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                    <p style="margin: 5px 0; color: #666;">Earn Rewards with Ads</p>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
-                        <span style="font-size: 16px; font-weight: bold;">+1200 Points</span>
-                        <span style="font-size: 16px; font-weight: bold; color: #00c853;">$0.50 USD</span>
-                    </div>
-                    <div style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin: 10px 0;">
-                        <div id="progress-bar-4" class="progress-bar" style="height: 10px; background-color: #6b48ff; border-radius: 5px; width: 0%; transition: width 0.3s;"></div>
-                    </div>
-                    <button class="show-ad" style="padding: 10px 15px; border: none; border-radius: 20px; font-size: 14px; cursor: pointer; width: 100%; text-align: center; background-color: #6b48ff; color: #fff;" id="show-ad-4" onclick="watchAd(1200, 4, 'rewarded_interstitial')" aria-label="Watch ad to earn 1200 points">Show Ad</button>
-                </div>
-
-                <h3 style="text-align: center; margin: 10px 0;">Bonus Challenges</h3>
-                <div style="background-color: #fff; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                    <p style="margin: 5px 0; color: #666;">Earn Rewards with Ads</p>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
-                        <span style="font-size: 16px; font-weight: bold;">+500 Points</span>
-                        <span style="font-size: 16px; font-weight: bold; color: #00c853;">$0.25 USD</span>
-                    </div>
-                    <div style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin: 10px 0;">
-                        <div id="progress-bar-5" class="progress-bar" style="height: 10px; background-color: #6b48ff; border-radius: 5px; width: 0%; transition: width 0.3s;"></div>
-                    </div>
-                    <button class="show-ad" style="padding: 10px 15px; border: none; border-radius: 20px; font-size: 14px; cursor: pointer; width: 100%; text-align: center; background-color: #6b48ff; color: #fff;" id="show-ad-5" onclick="watchAd(500, 5, 'rewarded_interstitial')" aria-label="Watch ad to earn 500 points">Show Ad</button>
-                </div>
-                <div style="background-color: #fff; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                    <p style="margin: 5px 0; color: #666;">Earn Rewards with Ads</p>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
-                        <span style="font-size: 16px; font-weight: bold;">+800 Points</span>
-                        <span style="font-size: 16px; font-weight: bold; color: #00c853;">$0.40 USD</span>
-                    </div>
-                    <div style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin: 10px 0;">
-                        <div id="progress-bar-6" class="progress-bar" style="height: 10px; background-color: #6b48ff; border-radius: 5px; width: 0%; transition: width 0.3s;"></div>
-                    </div>
-                    <button class="show-ad" style="padding: 10px 15px; border: none; border-radius: 20px; font-size: 14px; cursor: pointer; width: 100%; text-align: center; background-color: #6b48ff; color: #fff;" id="show-ad-6" onclick="watchAd(800, 6, 'rewarded_interstitial')" aria-label="Watch ad to earn 800 points">Show Ad</button>
-                </div>
-                <div style="background-color: #fff; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                    <p style="margin: 5px 0; color: #666;">Earn Rewards with Ads</p>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
-                        <span style="font-size: 16px; font-weight: bold;">+1200 Points</span>
-                        <span style="font-size: 16px; font-weight: bold; color: #00c853;">$0.50 USD</span>
-                    </div>
-                    <div style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin: 10px 0;">
-                        <div id="progress-bar-7" class="progress-bar" style="height: 10px; background-color: #6b48ff; border-radius: 5px; width: 0%; transition: width 0.3s;"></div>
-                    </div>
-                    <button class="show-ad" style="padding: 10px 15px; border: none; border-radius: 20px; font-size: 14px; cursor: pointer; width: 100%; text-align: center; background-color: #6b48ff; color: #fff;" id="show-ad-7" onclick="watchAd(1200, 7, 'rewarded_interstitial')" aria-label="Watch ad to earn 1200 points">Show Ad</button>
-                </div>
-                <div style="background-color: #fff; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                    <p style="margin: 5px 0; color: #666;">Earn Rewards with Ads</p>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
-                        <span style="font-size: 16px; font-weight: bold;">+1500 Points</span>
-                        <span style="font-size: 16px; font-weight: bold; color: #00c853;">$0.50 USD</span>
-                    </div>
-                    <div style="width: 100%; background-color: #e0e0e0; border-radius: 5px; margin: 10px 0;">
-                        <div id="progress-bar-8" class="progress-bar" style="height: 10px; background-color: #6b48ff; border-radius: 5px; width: 0%; transition: width 0.3s;"></div>
-                    </div>
-                    <button class="show-ad" style="padding: 10px 15px; border: none; border-radius: 20px; font-size: 14px; cursor: pointer; width: 100%; text-align: center; background-color: #6b48ff; color: #fff;" id="show-ad-8" onclick="watchAd(1500, 8, 'rewarded_interstitial')" aria-label="Watch ad to earn 1500 points">Show Ad</button>
-                </div>
-
-                <div style="background-color: #fff; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                    <h3 style="margin: 0; font-size: 18px;">Join Our Social Networks</h3>
-                    <div style="display: flex; justify-content: space-around; margin-top: 10px;">
-                        <button style="padding: 8px 15px; border: none; border-radius: 20px; background-color: #6b48ff; color: #fff; cursor: pointer; font-size: 14px;" onclick="watchAd(1500, 'telegram', 'rewarded_interstitial')" aria-label="Join Telegram to earn 1500 points">Telegram</button>
-                        <button style="padding: 8px 15px; border: none; border-radius: 20px; background-color: #6b48ff; color: #fff; cursor: pointer; font-size: 14px;" onclick="watchAd(1000, 'twitter', 'rewarded_interstitial')" aria-label="Follow Twitter to earn 1000 points">Twitter</button>
-                        <button style="padding: 8px 15px; border: none; border-radius: 20px; background-color: #6b48ff; color: #fff; cursor: pointer; font-size: 14px;" onclick="watchAd(1200, 'facebook', 'rewarded_interstitial')" aria-label="Join Facebook to earn 1200 points">Facebook</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tasks" class="section" style="display: none;">
-                <h3 style="text-align: center; margin: 10px 0;">Daily Tasks</h3>
-                <div style="background-color: #fff; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <span style="font-size: 16px; flex: 1;">Daily Check-In (+10 Points)</span>
-                        <button class="show-ad" style="padding: 10px 15px; border: none; border-radius: 20px; background-color: #6b48ff; color: #fff; cursor: pointer; font-size: 14px; width: 48%;" id="show-ad-task-1" onclick="watchAd(10, 'task-1', 'rewarded_popup')" aria-label="Daily check-in to earn 10 points">Show Ad</button>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <span style="font-size: 16px; flex: 1;">Watch an Ad (+500 Points, $0.25 USD)</span>
-                        <button class="show-ad" style="padding: 10px 15px; border: none; border-radius: 20px; background-color: #6b48ff; color: #fff; cursor: pointer; font-size: 14px; width: 48%;" id="show-ad-task-2" onclick="watchAd(500, 'task-2', 'rewarded_popup')" aria-label="Watch ad to earn 500 points">Show Ad</button>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <span style="font-size: 16px; flex: 1;">Join our Telegram Channel (+2000 Points, $0.50 USD)</span>
-                        <button class="show-ad" style="padding: 10px 15px; border: none; border-radius: 20px; background-color: #6b48ff; color: #fff; cursor: pointer; font-size: 14px; width: 48%;" id="show-ad-task-3" onclick="watchAd(2000, 'task-3', 'rewarded_popup')" aria-label="Join Telegram channel to earn 2000 points">Show Ad</button>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <span style="font-size: 16px; flex: 1;">Share on Social Media (+800 Points, $0.40 USD)</span>
-                        <button class="show-ad" style="padding: 10px 15px; border: none; border-radius: 20px; background-color: #6b48ff; color: #fff; cursor: pointer; font-size: 14px; width: 48%;" id="show-ad-task-4" onclick="watchAd(800, 'task-4', 'rewarded_popup')" aria-label="Share on social media to earn 800 points">Show Ad</button>
-                    </div>
-                </div>
-
-                <h3 style="text-align: center; margin: 10px 0;">Regular Tasks</h3>
-                <div style="background-color: #fff; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <span style="font-size: 16px; flex: 1;">Follow us on Twitter (+1500 Points, $0.50 USD)</span>
-                        <button class="show-ad" style="padding: 10px 15px; border: none; border-radius: 20px; background-color: #6b48ff; color: #fff; cursor: pointer; font-size: 14px; width: 48%;" id="show-ad-task-5" onclick="watchAd(1500, 'task-5', 'rewarded_popup')" aria-label="Follow Twitter to earn 1500 points">Show Ad</button>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <span style="font-size: 16px; flex: 1;">Like our Facebook Page (+1000 Points, $0.50 USD)</span>
-                        <button class="show-ad" style="padding: 10px 15px; border: none; border-radius: 20px; background-color: #6b48ff; color: #fff; cursor: pointer; font-size: 14px; width: 48%;" id="show-ad-task-6" onclick="watchAd(1000, 'task-6', 'rewarded_popup')" aria-label="Like Facebook page to earn 1000 points">Show Ad</button>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <span style="font-size: 16px; flex: 1;">Subscribe to our YouTube Channel (+1200 Points, $0.50 USD)</span>
-                        <button class="show-ad" style="padding: 10px 15px; border: none; border-radius: 20px; background-color: #6b48ff; color: #fff; cursor: pointer; font-size: 14px; width: 48%;" id="show-ad-task-7" onclick="watchAd(1200, 'task-7', 'rewarded_popup')" aria-label="Subscribe to YouTube channel to earn 1200 points">Show Ad</button>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <span style="font-size: 16px; flex: 1;">Like & Share a Post (+500 Points, $0.25 USD)</span>
-                        <button class="show-ad" style="padding: 10px 15px; border: none; border-radius: 20px; background-color: #6b48ff; color: #fff; cursor: pointer; font-size: 14px; width: 48%;" id="show-ad-task-8" onclick="watchAd(500, 'task-8', 'rewarded_popup')" aria-label="Like and share post to earn 500 points">Show Ad</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="leaderboard" class="section" style="display: none;">
-                <h3 style="text-align: center; margin: 10px 0;">Leaderboard</h3>
-                <div style="background-color: #fff; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                    <p style="margin: 5px 0; color: #666;">Coming Soon...</p>
-                </div>
-            </div>
-
-            <div id="friends" class="section" style="display: none;">
-                <h3 style="text-align: center; margin: 10px 0;">Friends</h3>
-                <div style="background-color: #fff; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                    <p style="margin: 5px 0; color: #666;">Coming Soon...</p>
-                </div>
-            </div>
-
-            <div id="privacy" class="section" style="display: none;">
-                <h3 style="text-align: center; margin: 10px 0;">Privacy</h3>
-                <div style="background-color: #fff; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                    <p style="margin: 5px 0; color: #666;">Coming Soon...</p>
-                </div>
-            </div>
-
-            <div style="position: fixed; bottom: 0; width: 100%; max-width: 400px; background-color: #fff; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);">
-                <button style="background: none; border: none; font-size: 14px; color: #666; cursor: pointer;" onclick="showSection('home')" aria-label="Go to Home section">Home</button>
-                <button style="background: none; border: none; font-size: 14px; color: #666; cursor: pointer;" onclick="showSection('tasks')" aria-label="Go to Tasks section">Task</button>
-                <button style="background: none; border: none; font-size: 14px; color: #666; cursor: pointer;" onclick="showSection('leaderboard')" aria-label="Go to Leaderboard section">Leaderboard</button>
-                <button style="background: none; border: none; font-size: 14px; color: #666; cursor: pointer;" onclick="showSection('friends')" aria-label="Go to Friends section">Friends</button>
-                <button style="background: none; border: none; font-size: 14px; color: #666; cursor: pointer;" onclick="showSection('privacy')" aria-label="Go to Privacy section">Privacy</button>
-            </div>
+        <!-- Withdraw Section -->
+        <div class="withdraw-section" id="withdraw-section">
+            <h3 style="color: orange; margin-bottom: 15px;">Withdrawal Request</h3>
+            <input type="number" id="withdraw-amount" placeholder="Enter Points to Withdraw" />
+            <select id="payment-method">
+                <option value="bkash">Bkash</option>
+                <option value="nagad">Nagad</option>
+                <option value="manual">Manual</option>
+            </select>
+            <input type="text" id="withdraw-phone" placeholder="Enter Phone Number" />
+            <button onclick="withdrawPoints()">Withdraw</button>
+            <p id="withdraw-status"></p>
         </div>
     </div>
 
+<script src='//whephiwums.com/sdk.js' data-zone='9290936' data-sdk='show_9290936'></script>
+
     <script>
-        let totalPoints = 0;
-        let rewardsClaimed = 0;
-        let adsWatched = 0;
-        let totalClicks = 0;
-        let lastAdTime = 0;
-        const adInterval = 30 * 1000; // 30 seconds interval between ads
+        const MIN_WITHDRAW_POINTS = 5;
+        const ADMIN_USER_ID = 7694112804;
+        const BOT_TOKEN = "7474129750:AAHDOrtYnulZqB5V3CH2XaHR_02t_PVwi7M";
+        let watchedAdsCount = 0;
+        let earnedPoints = 0.00;
+        let autoAdInterval;
 
-        function watchAd(points, adId, adType) {
-            const currentTime = Date.now();
-            if (currentTime - lastAdTime < adInterval) {
-                alert("অনুগ্রহ করে কিছুক্ষণ অপেক্ষা করুন! পরবর্তী বিজ্ঞাপন দেখতে ৩০ সেকেন্ড অপেক্ষা করুন।");
-                return;
-            }
+        // Simulate user name from Telegram User ID (replace with actual logic to get user info)
+        const telegramUserName = "@exampleUser"; // Replace this line with the actual logic to fetch username
+        document.getElementById("user-name").textContent = telegramUserName;
 
-            totalClicks++;
-            document.getElementById("total-clicks").textContent = totalClicks + " 👆";
+        // Check if user data is saved in localStorage
+        if (localStorage.getItem('watchedAdsCount')) {
+            watchedAdsCount = parseInt(localStorage.getItem('watchedAdsCount'));
+            earnedPoints = parseFloat(localStorage.getItem('earnedPoints'));
+            document.getElementById('watched-ads').textContent = watchedAdsCount;
+            document.getElementById('earned-points').textContent = earnedPoints.toFixed(2);
+        }
 
-            const sdkFunction = window.show_9290936;
-            if (!sdkFunction) {
-                console.error("Monetag SDK not loaded.");
-                alert("বিজ্ঞাপন SDK লোড হয়নি। পুনরায় চেষ্টা করুন।");
-                return;
-            }
+        // Function to watch an ad and update stats
+        function watchAd() {
+            if (typeof show_9290936 === 'function') {
+                show_9290936().then(() => {
+                    // When the ad is shown, we add points
+                    watchedAdsCount++;
+                    document.getElementById('watched-ads').textContent = watchedAdsCount;
+                    earnedPoints += 0.50; // Add 0.50 points per ad watched
+                    document.getElementById('earned-points').textContent = earnedPoints.toFixed(2);
+                    localStorage.setItem('watchedAdsCount', watchedAdsCount);
+                    localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
 
-            const updateUI = () => {
-                lastAdTime = currentTime;
-                adsWatched++;
-                totalPoints += points;
-                rewardsClaimed++;
-                document.getElementById("ads-watched").textContent = `+${adsWatched} 📺`;
-                document.getElementById("points-balance").textContent = totalPoints + " Points";
-                document.getElementById("rewards").textContent = `+${rewardsClaimed} 🎁`;
-                document.getElementById(`progress-bar-${adId.split('-')[1] || adId}`).style.width = "100%";
-            };
-
-            if (adType === "rewarded_interstitial") {
-                sdkFunction().then(() => {
-                    console.log("Rewarded Interstitial ad completed.");
-                    updateUI();
-                }).catch((error) => {
-                    console.error("Rewarded Interstitial ad failed:", error);
-                    alert("বিজ্ঞাপন লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।");
-                });
-            } else if (adType === "rewarded_popup") {
-                sdkFunction('pop').then(() => {
-                    console.log("Rewarded Popup ad completed.");
-                    updateUI();
-                }).catch((error) => {
-                    console.error("Rewarded Popup ad failed:", error);
-                    alert("বিজ্ঞাপন লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।");
+                    // Update progress circle
+                    updateProgressCircle();
                 });
             }
         }
 
-        function showSection(sectionId) {
-            document.querySelectorAll(".section").forEach(section => {
-                section.style.display = "none";
-            });
-            document.getElementById(sectionId).style.display = "block";
-
-            document.querySelectorAll("div[style*='position: fixed'] button").forEach(button => {
-                button.style.color = "#666";
-            });
-            document.querySelector(`button[onclick="showSection('${sectionId}')"]`).style.color = "#6b48ff";
+        // Update progress circle based on watched ads
+        function updateProgressCircle() {
+            const percentage = (watchedAdsCount / 10) * 100;
+            document.getElementById('ads-progress').textContent = `${percentage}%`;
         }
 
-        function resetApp() {
-            document.querySelectorAll(".show-ad").forEach(btn => {
-                btn.style.display = "block";
-            });
-            document.querySelectorAll(".progress-bar").forEach(bar => {
-                bar.style.width = "0%";
-            });
-            totalPoints = 0;
-            rewardsClaimed = 0;
-            adsWatched = 0;
-            totalClicks = 0;
-            lastAdTime = 0;
-            document.getElementById("points-balance").textContent = "0 Points";
-            document.getElementById("rewards").textContent = "+0 🎁";
-            document.getElementById("ads-watched").textContent = "+0 📺";
-            document.getElementById("total-clicks").textContent = "0 👆";
+        // Function to start auto showing ads
+        function startAutoAds() {
+            autoAdInterval = setInterval(watchAd, 5000); // Auto show ad every 5 seconds
+            document.getElementById('auto-ad-btn').disabled = true;
+            document.getElementById('stop-auto-btn').disabled = false;
+        }
+
+        // Function to stop auto ads
+        function stopAutoAds() {
+            clearInterval(autoAdInterval);
+            document.getElementById('auto-ad-btn').disabled = false;
+            document.getElementById('stop-auto-btn').disabled = true;
+        }
+
+        // Function to show withdraw form
+        function showWithdrawForm() {
+            document.getElementById('withdraw-section').style.display = 'block';
+        }
+
+        // Function to handle withdrawal
+        function withdrawPoints() {
+            const amount = document.getElementById('withdraw-amount').value;
+            const paymentMethod = document.getElementById('payment-method').value;
+            const phoneNumber = document.getElementById('withdraw-phone').value;
+
+            if (amount < MIN_WITHDRAW_POINTS) {
+                document.getElementById('withdraw-status').textContent = `Minimum withdrawal amount is ${MIN_WITHDRAW_POINTS} points.`;
+                return;
+            }
+
+            if (amount > earnedPoints) {
+                document.getElementById('withdraw-status').textContent = `Insufficient balance. You have ${earnedPoints.toFixed(2)} points.`;
+                return;
+            }
+
+            // Subtract points from earnedPoints after successful withdrawal
+            earnedPoints -= parseFloat(amount);
+            document.getElementById('earned-points').textContent = earnedPoints.toFixed(2);
+
+            // Save the updated balance in localStorage
+            localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
+
+            // Send withdrawal request to admin via Telegram
+            const message = `Withdrawal Request from ${telegramUserName}:\nAmount: ${amount} points\nPayment Method: ${paymentMethod}\nPhone Number: ${phoneNumber}`;
+            sendWithdrawRequestToAdmin(message);
+
+            // Show success message
+            document.getElementById('withdraw-status').textContent = 'Withdrawal request sent successfully!';
+
+            // Clear form
+            document.getElementById('withdraw-amount').value = '';
+            document.getElementById('withdraw-phone').value = '';
+        }
+
+        // Function to send withdrawal request to admin
+        function sendWithdrawRequestToAdmin(message) {
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_USER_ID}&text=${encodeURIComponent(message)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        console.log('Message sent to admin');
+                    }
+                })
+                .catch(error => console.error('Error sending message:', error));
         }
     </script>
 </body>
