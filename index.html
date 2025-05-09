@@ -5,21 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Reward App</title>
     <!-- Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
-        const firebaseConfig = {
-            apiKey: "AIzaSyBhhLnckzmS2DF8ZQ1OTrqFwiGKK2DNnJY",
-            authDomain: "mega-reward-bfea9.firebaseapp.com",
-            projectId: "mega-reward-bfea9",
-            storageBucket: "mega-reward-bfea9.firebasestorage.app",
-            messagingSenderId: "471344116140",
-            appId: "1:471344116140:web:431f5fc16ed4198baa8a09"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        window.db = db; // Make db accessible globally
-    </script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js"></script>
     <!-- Telegram Web App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <!-- Monetag SDK -->
@@ -169,6 +156,19 @@
     </div>
 
     <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhhLnckzmS2DF8ZQ1OTrqFwiGKK2DNnJY",
+            authDomain: "mega-reward-bfea9.firebaseapp.com",
+            projectId: "mega-reward-bfea9",
+            storageBucket: "mega-reward-bfea9.firebasestorage.app",
+            messagingSenderId: "471344116140",
+            appId: "1:471344116140:web:431f5fc16ed4198baa8a09",
+            measurementId: "G-SRE83LDV3P"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
         // Telegram Web App
         const telegram = window.Telegram.WebApp;
         telegram.ready();
@@ -191,73 +191,70 @@
         }
 
         // Load User Data
-        async function loadUserData() {
-            try {
-                const userRef = doc(window.db, 'users', userId);
-                const userSnap = await getDoc(userRef);
-                if (userSnap.exists()) {
-                    const data = userSnap.data();
+        function loadUserData() {
+            db.collection('users').doc(userId.toString()).get().then((doc) => {
+                if (doc.exists) {
+                    const data = doc.data();
                     coins = data.coins || 0;
                     referrals = data.referrals || 0;
                     document.getElementById('user-name').innerText = `Name: ${userName}`;
-                    document.getElementById('user-coins').innerText = `🪙 Coins: ${coins}`;
+                    document.getElementById('user-coins').innerText = `🪙 Coins: ${coins.toFixed(2)}`;
                     document.getElementById('user-referrals').innerText = `👥 Referrals: ${referrals}`;
                     document.getElementById('user-status').innerText = `✅ Status: ${data.status || 'Active'}`;
                 } else {
-                    await setDoc(userRef, {
+                    db.collection('users').doc(userId.toString()).set({
                         name: userName,
                         coins: 0,
                         referrals: 0,
                         status: 'Active'
+                    }).then(() => {
+                        document.getElementById('user-name').innerText = `Name: ${userName}`;
+                        document.getElementById('user-coins').innerText = `🪙 Coins: 0`;
+                        document.getElementById('user-referrals').innerText = `👥 Referrals: 0`;
+                        document.getElementById('user-status').innerText = `✅ Status: Active`;
+                    }).catch((error) => {
+                        console.error("Error creating user:", error);
                     });
-                    document.getElementById('user-name').innerText = `Name: ${userName}`;
-                    document.getElementById('user-coins').innerText = `🪙 Coins: 0`;
-                    document.getElementById('user-referrals').innerText = `👥 Referrals: 0`;
-                    document.getElementById('user-status').innerText = `✅ Status: Active`;
                 }
                 startMining();
-            } catch (error) {
+            }).catch((error) => {
                 console.error("Error loading user data:", error);
-            }
+            });
         }
 
         // Load Settings
-        async function loadSettings() {
-            try {
-                const settingsRef = doc(window.db, 'settings', 'general');
-                const settingsSnap = await getDoc(settingsRef);
-                if (settingsSnap.exists()) {
-                    const data = settingsSnap.data();
+        function loadSettings() {
+            db.collection('settings').doc('general').get().then((doc) => {
+                if (doc.exists) {
+                    const data = doc.data();
                     miningRate = data.miningRate || 0.5;
                     boostPercentage = data.boostPercentage || 50;
                     boostDuration = data.boostDuration || 10;
                     coinToBdt = data.coinToBdt || 0.1;
                     minWithdraw = data.minWithdraw || 50;
                     document.getElementById('mining-rate').innerText = `Mining: ${miningRate} coins/min`;
-                    document.getElementById('balance').innerText = `🪙 Balance: ${coins} coins = ${(coins * coinToBdt).toFixed(2)} BDT`;
+                    document.getElementById('balance').innerText = `🪙 Balance: ${coins.toFixed(2)} coins = ${(coins * coinToBdt).toFixed(2)} BDT`;
                     document.getElementById('min-withdraw').innerText = `Minimum Withdraw: ${minWithdraw} BDT`;
                     document.getElementById('withdraw-note').innerText = `Note: ${data.withdrawNote || 'Payment will be processed within 24 hours.'}`;
                     document.getElementById('about-content').innerText = data.aboutContent || 'We are a reward app that lets you earn coins...';
                 }
-            } catch (error) {
+            }).catch((error) => {
                 console.error("Error loading settings:", error);
-            }
+            });
         }
 
         // Mining Logic
         function startMining() {
             let progress = 0;
-            setInterval(async () => {
-                progress += (miningRate / 60);
+            setInterval(() => {
+                progress += (miningRate / 60) * 100;
                 coins += (miningRate / 60);
                 document.getElementById('mining-progress').style.width = `${(progress % 100)}%`;
                 document.getElementById('user-coins').innerText = `🪙 Coins: ${coins.toFixed(2)}`;
                 document.getElementById('balance').innerText = `🪙 Balance: ${coins.toFixed(2)} coins = ${(coins * coinToBdt).toFixed(2)} BDT`;
-                try {
-                    await setDoc(doc(window.db, 'users', userId), { coins }, { merge: true });
-                } catch (error) {
+                db.collection('users').doc(userId.toString()).update({ coins: coins }).catch((error) => {
                     console.error("Error updating coins:", error);
-                }
+                });
             }, 1000);
         }
 
@@ -282,39 +279,36 @@
             document.getElementById('withdraw-form').classList.remove('hidden');
         }
 
-        document.getElementById('withdraw-submit').addEventListener('click', async () => {
+        document.getElementById('withdraw-submit').addEventListener('click', () => {
             const amount = parseFloat(document.getElementById('withdraw-amount').value);
             const number = document.getElementById('withdraw-number').value;
             if (amount < minWithdraw || amount > coins * coinToBdt) {
                 alert('Invalid amount!');
                 return;
             }
-            try {
-                await setDoc(doc(window.db, 'withdraw_requests', `${userId}_${Date.now()}`), {
-                    userId,
-                    userName,
-                    amount,
-                    method: selectedMethod,
-                    number,
-                    status: 'Pending',
-                    timestamp: new Date()
-                });
+            db.collection('withdraw_requests').doc(`${userId.toString()}_${Date.now()}`).set({
+                userId: userId.toString(),
+                userName: userName,
+                amount: amount,
+                method: selectedMethod,
+                number: number,
+                status: 'Pending',
+                timestamp: new Date()
+            }).then(() => {
                 alert('Withdraw request submitted!');
                 document.getElementById('withdraw-form').classList.add('hidden');
-            } catch (error) {
+            }).catch((error) => {
                 console.error("Error submitting withdraw request:", error);
-            }
+            });
         });
 
         // Load Leaderboard
-        async function loadLeaderboard() {
-            try {
-                const usersRef = window.db.collection('users');
-                const snapshot = await usersRef.orderBy('coins', 'desc').limit(10).get();
+        function loadLeaderboard() {
+            db.collection('users').orderBy('coins', 'desc').limit(10).get().then((snapshot) => {
                 const table = document.getElementById('leaderboard-table');
                 table.innerHTML = '';
                 let rank = 1;
-                snapshot.forEach(doc => {
+                snapshot.forEach((doc) => {
                     const data = doc.data();
                     const row = `<tr>
                         <td>${rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank}</td>
@@ -325,9 +319,9 @@
                     table.innerHTML += row;
                     rank++;
                 });
-            } catch (error) {
+            }).catch((error) => {
                 console.error("Error loading leaderboard:", error);
-            }
+            });
         }
 
         // Initialize
