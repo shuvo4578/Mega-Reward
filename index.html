@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Reward App</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js"></script>
     <!-- Telegram Web App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Monetag SDK -->
-    <script src='//whephiwums.com/sdk.js' data-zone='9290936' data-sdk='show_9290936'></script>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -174,7 +172,7 @@
         telegram.ready();
 
         // User Data
-        let userId = telegram.initDataUnsafe.user ? telegram.initDataUnsafe.user.id : 'test_user';
+        let userId = telegram.initDataUnsafe.user ? telegram.initDataUnsafe.user.id.toString() : 'test_user';
         let userName = telegram.initDataUnsafe.user ? telegram.initDataUnsafe.user.first_name : 'Test User';
         let coins = 0;
         let referrals = 0;
@@ -192,7 +190,7 @@
 
         // Load User Data
         function loadUserData() {
-            db.collection('users').doc(userId.toString()).get().then((doc) => {
+            db.collection('users').doc(userId).get().then((doc) => {
                 if (doc.exists) {
                     const data = doc.data();
                     coins = data.coins || 0;
@@ -202,11 +200,12 @@
                     document.getElementById('user-referrals').innerText = `👥 Referrals: ${referrals}`;
                     document.getElementById('user-status').innerText = `✅ Status: ${data.status || 'Active'}`;
                 } else {
-                    db.collection('users').doc(userId.toString()).set({
+                    db.collection('users').doc(userId).set({
                         name: userName,
                         coins: 0,
                         referrals: 0,
-                        status: 'Active'
+                        status: 'Active',
+                        createdAt: new Date().toISOString()
                     }).then(() => {
                         document.getElementById('user-name').innerText = `Name: ${userName}`;
                         document.getElementById('user-coins').innerText = `🪙 Coins: 0`;
@@ -252,7 +251,7 @@
                 document.getElementById('mining-progress').style.width = `${(progress % 100)}%`;
                 document.getElementById('user-coins').innerText = `🪙 Coins: ${coins.toFixed(2)}`;
                 document.getElementById('balance').innerText = `🪙 Balance: ${coins.toFixed(2)} coins = ${(coins * coinToBdt).toFixed(2)} BDT`;
-                db.collection('users').doc(userId.toString()).update({ coins: coins }).catch((error) => {
+                db.collection('users').doc(userId).update({ coins: coins }).catch((error) => {
                     console.error("Error updating coins:", error);
                 });
             }, 1000);
@@ -260,16 +259,14 @@
 
         // Boost Button
         document.getElementById('boost-btn').addEventListener('click', () => {
-            show_9290936().then(() => {
-                alert('You have seen an ad! Boost activated!');
-                const originalRate = miningRate;
-                miningRate *= (1 + boostPercentage / 100);
-                document.getElementById('mining-rate').innerText = `Mining: ${miningRate.toFixed(2)} coins/min`;
-                setTimeout(() => {
-                    miningRate = originalRate;
-                    document.getElementById('mining-rate').innerText = `Mining: ${miningRate} coins/min`;
-                }, boostDuration * 1000);
-            }).catch(err => alert('Ad failed to load. Try again.'));
+            alert('Boost activated! (Ad integration placeholder)');
+            const originalRate = miningRate;
+            miningRate *= (1 + boostPercentage / 100);
+            document.getElementById('mining-rate').innerText = `Mining: ${miningRate.toFixed(2)} coins/min`;
+            setTimeout(() => {
+                miningRate = originalRate;
+                document.getElementById('mining-rate').innerText = `Mining: ${miningRate} coins/min`;
+            }, boostDuration * 1000);
         });
 
         // Withdraw Form
@@ -287,7 +284,7 @@
                 return;
             }
             db.collection('withdraw_requests').doc(`${userId.toString()}_${Date.now()}`).set({
-                userId: userId.toString(),
+                userId: userId,
                 userName: userName,
                 amount: amount,
                 method: selectedMethod,
