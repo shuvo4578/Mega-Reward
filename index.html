@@ -5,9 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Reward App</title>
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhhLnckzmS2DF8ZQ1OTrqFwiGKK2DNnJY",
+            authDomain: "mega-reward-bfea9.firebaseapp.com",
+            projectId: "mega-reward-bfea9",
+            storageBucket: "mega-reward-bfea9.firebasestorage.app",
+            messagingSenderId: "471344116140",
+            appId: "1:471344116140:web:431f5fc16ed4198baa8a09"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+    </script>
     <!-- Telegram Web App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <!-- Monetag SDK -->
@@ -157,19 +171,6 @@
     </div>
 
     <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAERcX_1Ih1XBeFFQfJKMCWNoYnkNv-Tw8",
-            authDomain: "my-reward-app-b2d1b.firebaseapp.com",
-            projectId: "my-reward-app-b2d1b",
-            storageBucket: "my-reward-app-b2d1b.firebasestorage.app",
-            messagingSenderId: "830505812403",
-            appId: "1:830505812403:web:2745761226ca2ad72e4bc6"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const auth = firebase.auth();
-
         // Telegram Web App
         const telegram = window.Telegram.WebApp;
         telegram.ready();
@@ -279,7 +280,7 @@
                 method: selectedMethod,
                 number,
                 status: 'Pending',
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                timestamp: new Date()
             });
             alert('Withdraw request submitted!');
             document.getElementById('withdraw-form').classList.add('hidden');
