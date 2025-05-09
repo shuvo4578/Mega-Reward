@@ -83,9 +83,7 @@
             </div>
             <div class="card">
                 <h2 class="text-xl font-bold">📢 Ad</h2>
-                <div id="ad-container">
-                    <script src='//whephiwums.com/sdk.js' data-zone='9290936'></script>
-                </div>
+                <div id="ad-container"></div>
             </div>
         </div>
 
@@ -164,14 +162,22 @@
             appId: "1:471344116140:web:431f5fc16ed4198baa8a09",
             measurementId: "G-SRE83LDV3P"
         };
-        firebase.initializeApp(firebaseConfig);
+        try {
+            firebase.initializeApp(firebaseConfig);
+        } catch (error) {
+            console.error("Firebase initialization failed:", error);
+            document.getElementById('login-status').innerText = 'Firebase লোড করতে ব্যর্থ!';
+        }
         const db = firebase.firestore();
 
         // Telegram Web App
-        const telegram = window.Telegram.WebApp;
-        telegram.ready();
-
-        // User Data
+        let telegram;
+        try {
+            telegram = window.Telegram.WebApp;
+            telegram.ready();
+        } catch (error) {
+            console.error("Telegram Web App failed to load:", error);
+            document.getElementById('login-status').innerText = 'টেলিগ্রাম লোড করতে ব__\n        // User Data
         let userId = telegram.initDataUnsafe.user ? telegram.initDataUnsafe.user.id.toString() : 'test_user';
         let userName = telegram.initDataUnsafe.user ? telegram.initDataUnsafe.user.first_name : 'Test User';
         let coins = 0;
@@ -190,7 +196,7 @@
 
         // Load User Data
         function loadUserData() {
-            db.collection('users').doc(userId).get().then((doc) => {
+            db.collection('users').doc(userId).onSnapshot((doc) => {
                 if (doc.exists) {
                     const data = doc.data();
                     coins = data.coins || 0;
@@ -199,6 +205,7 @@
                     document.getElementById('user-coins').innerText = `🪙 Coins: ${coins.toFixed(2)}`;
                     document.getElementById('user-referrals').innerText = `👥 Referrals: ${referrals}`;
                     document.getElementById('user-status').innerText = `✅ Status: ${data.status || 'Active'}`;
+                    document.getElementById('balance').innerText = `🪙 Balance: ${coins.toFixed(2)} coins = ${(coins * coinToBdt).toFixed(2)} BDT`;
                 } else {
                     db.collection('users').doc(userId).set({
                         name: userName,
@@ -211,19 +218,22 @@
                         document.getElementById('user-coins').innerText = `🪙 Coins: 0`;
                         document.getElementById('user-referrals').innerText = `👥 Referrals: 0`;
                         document.getElementById('user-status').innerText = `✅ Status: Active`;
+                        document.getElementById('balance').innerText = `🪙 Balance: 0 coins = 0 BDT`;
                     }).catch((error) => {
                         console.error("Error creating user:", error);
+                        document.getElementById('login-status').innerText = 'ইউজার তৈরি করতে ব্যর্থ!';
                     });
                 }
                 startMining();
-            }).catch((error) => {
+            }, (error) => {
                 console.error("Error loading user data:", error);
+                document.getElementById('login-status').innerText = 'ইউজার ডেটা লোড করতে ব্যর্থ!';
             });
         }
 
         // Load Settings
         function loadSettings() {
-            db.collection('settings').doc('general').get().then((doc) => {
+            db.collection('settings').doc('general').onSnapshot((doc) => {
                 if (doc.exists) {
                     const data = doc.data();
                     miningRate = data.miningRate || 0.5;
@@ -237,8 +247,9 @@
                     document.getElementById('withdraw-note').innerText = `Note: ${data.withdrawNote || 'Payment will be processed within 24 hours.'}`;
                     document.getElementById('about-content').innerText = data.aboutContent || 'We are a reward app that lets you earn coins...';
                 }
-            }).catch((error) => {
+            }, (error) => {
                 console.error("Error loading settings:", error);
+                document.getElementById('login-status').innerText = 'সেটিংস লোড করতে ব্যর্থ!';
             });
         }
 
@@ -279,11 +290,15 @@
         document.getElementById('withdraw-submit').addEventListener('click', () => {
             const amount = parseFloat(document.getElementById('withdraw-amount').value);
             const number = document.getElementById('withdraw-number').value;
-            if (amount < minWithdraw || amount > coins * coinToBdt) {
-                alert('Invalid amount!');
+            if (!amount || !number) {
+                alert('অ্যামাউন্ট এবং নম্বর পূরণ করুন!');
                 return;
             }
-            db.collection('withdraw_requests').doc(`${userId.toString()}_${Date.now()}`).set({
+            if (amount < minWithdraw || amount > coins * coinToBdt) {
+                alert('অ্যামাউন্ট সঠিক নয়! মিনিমাম ' + minWithdraw + ' BDT এবং ব্যালেন্সের মধ্যে হতে হবে।');
+                return;
+            }
+            db.collection('withdraw_requests').doc(`${userId}_${Date.now()}`).set({
                 userId: userId,
                 userName: userName,
                 amount: amount,
@@ -292,16 +307,19 @@
                 status: 'Pending',
                 timestamp: new Date()
             }).then(() => {
-                alert('Withdraw request submitted!');
+                alert('উইথড্র রিকোয়েস্ট সাবমিট হয়েছে!');
                 document.getElementById('withdraw-form').classList.add('hidden');
+                document.getElementById('withdraw-amount').value = '';
+                document.getElementById('withdraw-number').value = '';
             }).catch((error) => {
                 console.error("Error submitting withdraw request:", error);
+                alert('উইথড্র রিকোয়েস্ট সাবমিট করতে ব্যর্থ!');
             });
         });
 
         // Load Leaderboard
         function loadLeaderboard() {
-            db.collection('users').orderBy('coins', 'desc').limit(10).get().then((snapshot) => {
+            db.collection('users').orderBy('coins', 'desc').limit(10).onSnapshot((snapshot) => {
                 const table = document.getElementById('leaderboard-table');
                 table.innerHTML = '';
                 let rank = 1;
@@ -309,23 +327,38 @@
                     const data = doc.data();
                     const row = `<tr>
                         <td>${rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank}</td>
-                        <td>${data.name}</td>
+                        <td>${data.name || 'N/A'}</td>
                         <td>${data.coins.toFixed(2)}</td>
                         <td>${(data.withdrawn || 0).toFixed(2)} BDT</td>
                     </tr>`;
                     table.innerHTML += row;
                     rank++;
                 });
-            }).catch((error) => {
+            }, (error) => {
                 console.error("Error loading leaderboard:", error);
+                document.getElementById('login-status').innerText = 'লিডারবোর্ড লোড করতে ব্যর্থ!';
             });
         }
 
+        // Load Ad Script
+        function loadAdScript() {
+            const adScript = document.createElement('script');
+            adScript.src = '//whephiwums.com/sdk.js';
+            adScript.async = true;
+            adScript.dataset.zone = '9290936';
+            adScript.onerror = () => {
+                console.error('Ad script failed to load!');
+                document.getElementById('ad-container').innerText = 'বিজ্ঞাপন লোড করতে ব্যর্থ!';
+            };
+            document.getElementById('ad-container').appendChild(adScript);
+        }
+
         // Initialize
-        document.getElementById('login-status').innerText = telegram.initDataUnsafe.user ? `Logged in as ${userName}` : 'Test Mode';
+        document.getElementById('login-status').innerText = telegram.initDataUnsafe.user ? `Logged in as ${userName}` : 'টেস্ট মোড';
         loadUserData();
         loadSettings();
         loadLeaderboard();
+        loadAdScript();
     </script>
 </body>
 </html>
