@@ -162,24 +162,33 @@
             appId: "1:471344116140:web:431f5fc16ed4198baa8a09",
             measurementId: "G-SRE83LDV3P"
         };
+        let db;
         try {
-            firebase.initializeApp(firebaseConfig);
+            const app = firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore(app);
         } catch (error) {
             console.error("Firebase initialization failed:", error);
-            document.getElementById('login-status').innerText = 'Firebase লোড করতে ব্যর্থ!';
+            document.getElementById('login-status').innerText = 'Firebase লোড করতে ব্যর্থ! কনফিগারেশন চেক করুন।';
+            return;
         }
-        const db = firebase.firestore();
 
         // Telegram Web App
         let telegram;
+        let userId = 'test_user';
+        let userName = 'Test User';
         try {
             telegram = window.Telegram.WebApp;
             telegram.ready();
+            const user = telegram.initDataUnsafe.user || { id: 'test_user', first_name: 'Test User' };
+            userId = user.id.toString();
+            userName = user.first_name;
+            document.getElementById('login-status').innerText = `Logged in as ${userName}`;
         } catch (error) {
             console.error("Telegram Web App failed to load:", error);
-            document.getElementById('login-status').innerText = 'টেলিগ্রাম লোড করতে ব__\n        // User Data
-        let userId = telegram.initDataUnsafe.user ? telegram.initDataUnsafe.user.id.toString() : 'test_user';
-        let userName = telegram.initDataUnsafe.user ? telegram.initDataUnsafe.user.first_name : 'Test User';
+            document.getElementById('login-status').innerText = 'টেলিগ্রাম লোড করতে ব্যর্থ! টেলিগ্রাম অ্যাপ থেকে খুলুন।';
+        }
+
+        // User Data
         let coins = 0;
         let referrals = 0;
         let miningRate = 0.5;
@@ -196,6 +205,10 @@
 
         // Load User Data
         function loadUserData() {
+            if (!userId) {
+                document.getElementById('user-name').innerText = 'Name: Error (User ID not found)';
+                return;
+            }
             db.collection('users').doc(userId).onSnapshot((doc) => {
                 if (doc.exists) {
                     const data = doc.data();
@@ -221,13 +234,17 @@
                         document.getElementById('balance').innerText = `🪙 Balance: 0 coins = 0 BDT`;
                     }).catch((error) => {
                         console.error("Error creating user:", error);
-                        document.getElementById('login-status').innerText = 'ইউজার তৈরি করতে ব্যর্থ!';
+                        document.getElementById('login-status').innerText = 'ইউজার তৈরি করতে ব্যর্থ! ডাটাবেস চেক করুন।';
                     });
                 }
                 startMining();
             }, (error) => {
                 console.error("Error loading user data:", error);
-                document.getElementById('login-status').innerText = 'ইউজার ডেটা লোড করতে ব্যর্থ!';
+                document.getElementById('user-name').innerText = 'Name: Error (Data load failed)';
+                document.getElementById('user-coins').innerText = '🪙 Coins: 0';
+                document.getElementById('user-referrals').innerText = '👥 Referrals: 0';
+                document.getElementById('user-status').innerText = '✅ Status: Active';
+                document.getElementById('login-status').innerText = 'ইউজার ডেটা লোড করতে ব্যর্থ! সিকিউরিটি রুলস চেক করুন।';
             });
         }
 
@@ -246,10 +263,16 @@
                     document.getElementById('min-withdraw').innerText = `Minimum Withdraw: ${minWithdraw} BDT`;
                     document.getElementById('withdraw-note').innerText = `Note: ${data.withdrawNote || 'Payment will be processed within 24 hours.'}`;
                     document.getElementById('about-content').innerText = data.aboutContent || 'We are a reward app that lets you earn coins...';
+                } else {
+                    document.getElementById('mining-rate').innerText = `Mining: ${miningRate} coins/min`;
+                    document.getElementById('balance').innerText = `🪙 Balance: ${coins.toFixed(2)} coins = ${(coins * coinToBdt).toFixed(2)} BDT`;
+                    document.getElementById('min-withdraw').innerText = `Minimum Withdraw: ${minWithdraw} BDT`;
+                    document.getElementById('withdraw-note').innerText = `Note: Payment will be processed within 24 hours.`;
+                    document.getElementById('about-content').innerText = 'We are a reward app that lets you earn coins...';
                 }
             }, (error) => {
                 console.error("Error loading settings:", error);
-                document.getElementById('login-status').innerText = 'সেটিংস লোড করতে ব্যর্থ!';
+                document.getElementById('login-status').innerText = 'সেটিংস লোড করতে ব্যর্থ! ডাটাবেস চেক করুন।';
             });
         }
 
@@ -313,7 +336,7 @@
                 document.getElementById('withdraw-number').value = '';
             }).catch((error) => {
                 console.error("Error submitting withdraw request:", error);
-                alert('উইথড্র রিকোয়েস্ট সাবমিট করতে ব্যর্থ!');
+                alert('উইথড্র রিকোয়েস্ট সাবমিট করতে ব্যর্থ! ডাটাবেস চেক করুন।');
             });
         });
 
@@ -336,7 +359,7 @@
                 });
             }, (error) => {
                 console.error("Error loading leaderboard:", error);
-                document.getElementById('login-status').innerText = 'লিডারবোর্ড লোড করতে ব্যর্থ!';
+                document.getElementById('login-status').innerText = 'লিডারবোর্ড লোড করতে ব্যর্থ! ডাটাবেস চেক করুন।';
             });
         }
 
@@ -354,7 +377,6 @@
         }
 
         // Initialize
-        document.getElementById('login-status').innerText = telegram.initDataUnsafe.user ? `Logged in as ${userName}` : 'টেস্ট মোড';
         loadUserData();
         loadSettings();
         loadLeaderboard();
