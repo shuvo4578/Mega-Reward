@@ -292,7 +292,7 @@
                     const ownReferralCode = Math.random().toString(36).substring(2, 8).toUpperCase();
                     const defaultUserData = {
                         uid: currentUser.uid, name: currentUser.email.split('@')[0], email: currentUser.email,
-                        balance: 50, referralCode: ownReferralCode, referredBy: null,
+                        balance: 20, referralCode: ownReferralCode, referredBy: null,
                         lastNotificationCheck: new Date(),
                         createdAt: serverTimestamp(),
                         dailyAdCount: 0, lastAdWatchDate: new Date().toISOString().split('T')[0], isBlocked: false
@@ -310,7 +310,7 @@
             const configRef = doc(db, "config", "main");
             try {
                 const configSnap = await getDoc(configRef);
-                appConfig = configSnap.exists() ? configSnap.data() : { minWithdrawal: 5000, paymentMethods: ["UPI", "Paytm"], dailyAdLimit: 10, coinValueCoins: 1000, coinValueInr: 10 };
+                appConfig = configSnap.exists() ? configSnap.data() : { minWithdrawal: 5000, paymentMethods: ["Bkash", "Bkash"], dailyAdLimit: 10, coinValueCoins: 1000, coinValueInr: 10 };
             } catch (error) {
                 console.error("Error fetching app config:", error);
             }
@@ -626,9 +626,9 @@
                 
                 let rewardAmount = 0;
                 if (taskType === 'miniApp') {
-                    rewardAmount = 100; // Mini App ka zyada reward
+                    rewardAmount = 15; // Mini App ka zyada reward
                 } else if (taskType !== 'inApp') {
-                    rewardAmount = 50;
+                    rewardAmount = 10;
                 }
 
                 if (rewardAmount > 0) {
