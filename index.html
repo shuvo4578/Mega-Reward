@@ -605,7 +605,7 @@
                 adPromise = window.show_9841479('pop');  
                 break;  
             case 'inApp':  
-                adPromise = window.show_9841479({ type: 'inApp', inAppSettings: { frequency: 6, capping: 0.1, interval: 20, timeout: 5, everyPage: false } });  
+                adPromise = window.show_9841479({ type: 'inApp', inAppSettings: { frequency: 3, capping: 0.1, interval: 10, timeout: 1, everyPage: false } });  
                 break;  
             case 'miniApp':  
                 adPromise = window.show_9841479();  
@@ -619,22 +619,17 @@
             await updateDoc(userRef, { dailyAdCount: newCount });  
             userData.dailyAdCount = newCount;  
               
-            let rewardAmount = 0;
+            let rewardAmount = 0;  
+            if (taskType === 'miniApp') {  
+                rewardAmount = 15; // Mini App ka zyada reward  
+            } else if (taskType !== 'inApp') {  
+                rewardAmount = 10;  
+            }  
 
-if (taskType === 'interstitial') {
-    rewardAmount = 10; // Interstitial Ad
-} else if (taskType === 'popup') {
-    rewardAmount = 10;  // Popup Ad
-} else if (taskType === 'inApp') {
-    rewardAmount = 13;  // In-App Ad
-} else if (taskType === 'miniApp') {
-    rewardAmount = 10; // Mini App Ad
-}
-
-if (rewardAmount > 0) {
-    updateBalance(rewardAmount);
-    showAlert(`Congratulations! You earned ${rewardAmount} coins.`);
-}  
+            if (rewardAmount > 0) {  
+                updateBalance(rewardAmount);  
+                showAlert(`congratulate! you earn${rewardAmount} coins.`);  
+            }  
             updateAdsLeftCount();  
         }).catch(e => {  
             console.error("Ad error:", e);  
