@@ -46,20 +46,20 @@
     <!-- Authentication Section -->
     <div id="auth-section" class="min-h-screen p-6 flex-col justify-center main-page">
         <h1 class="text-4xl font-bold text-center mb-2 text-accent">CashOcean</h1>
-        <p class="text-center text-gray-400 mb-8">Jaari rakhne ke liye Login ya Signup karein</p>
+        <p class="text-center text-gray-400 mb-8">For start earning please login</p>
         <div id="auth-container">
             <div id="login-view">
                 <input id="login-email" type="email" placeholder="Email" class="w-full p-3 rounded-lg input-field mb-4">
                 <input id="login-password" type="password" placeholder="Password" class="w-full p-3 rounded-lg input-field mb-4">
                 <button id="login-btn" class="w-full p-3 rounded-lg btn-accent mb-4">Login</button>
-                <p class="text-center text-gray-400">Account nahi hai? <a href="#" id="show-signup" class="font-semibold text-accent">Sign Up</a></p>
+                <p class="text-center text-gray-400">Have not any Acoount? <a href="#" id="show-signup" class="font-semibold text-accent">Sign Up</a></p>
             </div>
             <div id="signup-view" class="hidden">
                  <input id="signup-name" type="text" placeholder="Poora Naam" class="w-full p-3 rounded-lg input-field mb-4">
                 <input id="signup-email" type="email" placeholder="Email" class="w-full p-3 rounded-lg input-field mb-4">
                 <input id="signup-password" type="password" placeholder="Password" class="w-full p-3 rounded-lg input-field mb-4">
                 <button id="signup-btn" class="w-full p-3 rounded-lg btn-accent mb-4">Sign Up</button>
-                <p class="text-center text-gray-400">Pehle se account hai? <a href="#" id="show-login" class="font-semibold text-accent">Login</a></p>
+                <p class="text-center text-gray-400">Allredy have an account?<a href="#" id="show-login" class="font-semibold text-accent">Login</a></p>
             </div>
         </div>
     </div>
@@ -96,31 +96,58 @@
                         <p class="text-sm text-gray-400">Ads Left: <span id="ads-left-count">...</span></p>
                     </div>
                     <div class="space-y-3">
-                        <div class="bg-orange-500 p-3 rounded-lg flex items-center justify-between text-black">
-                            <div class="flex items-center space-x-3"><span class="text-3xl">ðŸ¤©</span><div><h3 class="font-bold">Watch Short Ad</h3><p class="text-xs font-medium">Rewarded Interstitial</p></div></div>
-                            <button class="bg-white text-orange-500 font-bold px-6 py-2 rounded-lg text-sm btn" onclick="claimReward('interstitial')">Claim</button>
-                        </div>
-                        <div class="card-bg p-3 rounded-lg flex items-center justify-between">
-                            <div class="flex items-center space-x-3"><span class="text-3xl">ðŸ˜Ž</span><div><h3 class="font-semibold">Click for Reward</h3><p class="text-xs text-gray-400">Rewarded Popup</p></div></div>
-                            <button class="bg-white text-black font-bold px-6 py-2 rounded-lg text-sm btn" onclick="claimReward('popup')">Claim</button>
-                        </div>
-                         <div class="card-bg p-3 rounded-lg flex items-center justify-between">
-                            <div class="flex items-center space-x-3"><span class="text-3xl">ðŸ‘€</span><div><h3 class="font-semibold">Watch a Video</h3><p class="text-xs text-gray-400">In-App Interstitial</p></div></div>
-                            <button class="bg-gray-700 text-white font-bold px-6 py-2 rounded-lg text-sm btn" onclick="claimReward('inApp')">Start</button>
-                        </div>
-                        <div class="card-bg p-3 rounded-lg flex items-center justify-between">
-                            <div class="flex items-center space-x-3"><span class="text-3xl">ðŸŽ®</span><div><h3 class="font-semibold">Play Mini App</h3><p class="text-xs text-gray-400">Get a big reward!</p></div></div>
-                            <button class="bg-blue-500 text-white font-bold px-6 py-2 rounded-lg text-sm btn" onclick="claimReward('miniApp')">Play</button>
-                        </div>
-                    </div>
+    <div class="bg-orange-500 p-3 rounded-lg flex items-center justify-between text-black">
+        <div class="flex items-center space-x-3">
+            <span class="text-3xl">😎</span>
+            <div>
+                <h3 class="font-bold">Watch Short Ad</h3>
+                <p class="text-xs font-medium">Rewarded Interstitial</p>
+            </div>
+        </div>
+        <button class="bg-white text-orange-500 font-bold px-6 py-2 rounded-lg text-sm btn" onclick="claimReward('interstitial')">Claim</button>
+    </div>
+
+    <div class="bg-orange-500 p-3 rounded-lg flex items-center justify-between text-black">
+        <div class="flex items-center space-x-3">
+            <span class="text-3xl">🤩</span>
+            <div>
+                <h3 class="font-bold">Click for Reward</h3>
+                <p class="text-xs font-medium">Rewarded Popup</p>
+            </div>
+        </div>
+        <button class="bg-white text-orange-500 font-bold px-6 py-2 rounded-lg text-sm btn" onclick="claimReward('popup')">Claim</button>
+    </div>
+
+    <div class="bg-orange-500 p-3 rounded-lg flex items-center justify-between text-black">
+        <div class="flex items-center space-x-3">
+            <span class="text-3xl">👀</span>
+            <div>
+                <h3 class="font-bold">Watch a Video</h3>
+                <p class="text-xs font-medium">In-App Interstitial</p>
+            </div>
+        </div>
+        <button class="bg-white text-orange-500 font-bold px-6 py-2 rounded-lg text-sm btn" onclick="claimReward('inApp')">Start</button>
+    </div>
+
+    <div class="bg-orange-500 p-3 rounded-lg flex items-center justify-between text-black">
+        <div class="flex items-center space-x-3">
+            <span class="text-3xl">🎮</span>
+            <div>
+                <h3 class="font-bold">Play Mini App</h3>
+                <p class="text-xs font-medium">Get a big reward!</p>
+            </div>
+        </div>
+        <button class="bg-white text-orange-500 font-bold px-6 py-2 rounded-lg text-sm btn" onclick="claimReward('miniApp')">Play</button>
+    </div>
+</div>
                 </section>
             </div>
 
             <!-- Wallet Page -->
             <div id="wallet-page" class="p-4 space-y-6 sub-page">
-                <h2 class="text-xl font-bold text-center">Mera Wallet</h2>
+                <h2 class="text-xl font-bold text-center">My Wallet</h2>
                 <div class="card-bg p-4 rounded-lg">
-                    <h3 class="font-semibold mb-3">Earnings Withdraw Karein</h3>
+                    <h3 class="font-semibold mb-3">Withdraw your Earning</h3>
                     <p class="text-sm text-gray-400 mb-1">Current Balance: <span class="font-bold text-accent"><span id="wallet-coin-balance">0</span> Coins</span></p>
                     <p class="text-sm text-gray-400 mb-2">Minimum Withdrawal: <span id="min-withdrawal-info">...</span> Coins</p>
                     <p class="text-sm text-gray-400 mb-4 font-semibold" id="coin-value-info">...</p>
@@ -139,18 +166,18 @@
             <div id="refer-page" class="p-4 space-y-6 sub-page">
                  <h2 class="text-xl font-bold text-center">Refer & Earn</h2>
                  <div class="card-bg p-6 rounded-lg text-center">
-                     <p class="text-gray-400 mb-2">Aapka Referral Code</p>
+                     <p class="text-gray-400 mb-2">Your Referral Code</p>
                      <div class="bg-gray-800 p-3 rounded-lg flex items-center justify-center mb-4">
                          <span id="referral-code" class="text-2xl font-bold tracking-widest">LOADING...</span>
                          <button id="copy-code-btn" class="ml-4"><i data-lucide="copy" class="w-6 h-6 text-gray-400"></i></button>
                      </div>
-                     <p class="text-sm text-gray-300">Apne dosto ke saath code share karein.</p>
+                     <p class="text-sm text-gray-300">Share with your friend.</p>
                  </div>
-                 <button id="share-btn" class="w-full p-3 rounded-lg btn-accent">Apna Code Share Karein</button>
+                 <button id="share-btn" class="w-full p-3 rounded-lg btn-accent">Share your this code For get Bonus</button>
                  <div class="card-bg p-4 rounded-lg mt-6">
-                    <h3 class="font-semibold mb-3 text-center">Kisi ka Referral Code Hai?</h3>
-                    <input id="enter-referral-code" type="text" placeholder="Yahan code daalein" class="w-full p-3 rounded-lg input-field mb-3">
-                    <button id="apply-referral-btn" class="w-full p-3 rounded-lg btn-outline-accent">Code Apply Karein</button>
+                    <h3 class="font-semibold mb-3 text-center">Have any referral-code?</h3>
+                    <input id="enter-referral-code" type="text" placeholder="Give referral-code in here" class="w-full p-3 rounded-lg input-field mb-3">
+                    <button id="apply-referral-btn" class="w-full p-3 rounded-lg btn-outline-accent">Apply your code</button>
                  </div>
             </div>
 
@@ -236,7 +263,7 @@
                 currentUser = user;
                 await fetchUserData();
                 if (userData.isBlocked) {
-                    showAlert("Aapka account block kar diya gaya hai.");
+                    showAlert("Your account is Block.");
                     await signOut(auth);
                     loader.style.display = 'none';
                     return;
@@ -275,7 +302,7 @@
                 }
             } catch (error) {
                 console.error("Error fetching user data:", error);
-                showAlert("User data load karne mein error aayi.");
+                showAlert("Error load User data .");
             }
         }
 
@@ -321,9 +348,9 @@
 
         function updateDynamicPaymentFields() {
             const selectedMethod = withdrawMethodSelect.value.toLowerCase();
-            let placeholder = "Detail Daalein";
-            if (selectedMethod.includes('upi')) placeholder = "Apni UPI ID Daalein";
-            if (selectedMethod.includes('paytm')) placeholder = "Apna Paytm Number Daalein";
+            let placeholder = "Write details ";
+            if (selectedMethod.includes('Bkash')) placeholder = "Your Bkash Number";
+            if (selectedMethod.includes('Nagad')) placeholder = "Your Nagad Number";
             paymentDetailsContainer.innerHTML = `<input id="payment-detail-input" type="text" placeholder="${placeholder}" class="w-full p-3 rounded-lg input-field">`;
         }
 
@@ -436,7 +463,7 @@
             try {
                 const querySnapshot = await getDocs(q);
                 if (querySnapshot.empty) {
-                    historyList.innerHTML = '<p class="text-gray-400">Aapne abhi tak koi withdrawal nahi kiya hai.</p>';
+                    historyList.innerHTML = '<p class="text-gray-400">You have not withdraw any amount.</p>';
                     return;
                 }
                 const withdrawals = [];
@@ -458,11 +485,11 @@
         }
         
         async function handleApplyReferralCode() {
-            if (userData.referredBy) return showAlert("Aap pehle hi ek referral code istemal kar chuke hain.");
+            if (userData.referredBy) return showAlert("You Allredy use a referral code.");
             const codeInput = document.getElementById('enter-referral-code');
             const code = codeInput.value.trim().toUpperCase();
-            if (!code) return showAlert("Kripya ek code daalein.");
-            if (code === userData.referralCode) return showAlert("Aap apna khud ka code istemal nahi kar sakte.");
+            if (!code) return showAlert("Please write a code.");
+            if (code === userData.referralCode) return showAlert("You can't use your won referrerCode.");
             loader.style.display = 'flex';
             await applyReferralBonus(code, true);
             codeInput.value = '';
@@ -483,13 +510,13 @@
                     await updateDoc(newUserRef, { balance: (userData.balance || 0) + 100, referredBy: referrerCode });
                     userData.balance += 100; userData.referredBy = referrerCode;
                     updateUI();
-                    if(isManualApply) showAlert("Code safaltapoorvak apply ho gaya! Aapko 100 coins mile hain.");
+                    if(isManualApply) showAlert("successfully code aply you get 20 coin");
                 } else {
-                    if(isManualApply) showAlert("Galat referral code.");
+                    if(isManualApply) showAlert("Invaid referral code.");
                 }
             } catch(error) {
                 console.error("Error applying referral bonus: ", error);
-                if(isManualApply) showAlert("Code apply karte samay error aayi.");
+                if(isManualApply) showAlert("Error apply your code .");
             }
         }
 
@@ -509,10 +536,10 @@
             const paymentDetail = paymentDetailInput ? paymentDetailInput.value.trim() : '';
             const minWithdrawal = appConfig.minWithdrawal || 5000;
 
-            if (!amount || amount <= 0) return showAlert("Kripya valid amount daalein.");
+            if (!amount || amount <= 0) return showAlert("please write valid amount.");
             if (amount < minWithdrawal) return showAlert(`Minimum withdrawal ${minWithdrawal} coins hai.`);
             if (amount > userData.balance) return showAlert("Insufficient balance.");
-            if (!paymentDetail) return showAlert("Kripya payment detail daalein (UPI ID ya Paytm Number).");
+            if (!paymentDetail) return showAlert("wright your payment detail .");
 
             try {
                 await updateBalance(-amount);
@@ -520,11 +547,11 @@
                     userId: currentUser.uid, userName: userData.name, userEmail: userData.email,
                     amount: amount, method: method, paymentDetail: paymentDetail, status: "pending", requestedAt: serverTimestamp()
                 });
-                showAlert("Withdrawal request safaltapoorvak submit ho gayi hai!");
+                showAlert("successfully submit Withdrawal request !");
                 document.getElementById('withdraw-amount').value = '';
                 paymentDetailInput.value = '';
             } catch (error) {
-                showAlert("Request submit karne mein error: " + error.message);
+                showAlert("Error for submit your Request: " + error.message);
                 await updateBalance(amount);
             }
         }
@@ -538,9 +565,9 @@
             textArea.focus(); textArea.select();
             try {
                 document.execCommand('copy');
-                showAlert("Referral code copy ho gaya!");
-            } catch (err) {
-                showAlert("Code copy karne mein à¤µà¤¿à¤«à¤².");
+                showAlert("Referral code is copy !");
+            } catch (error) {
+                showAlert("Error for copy code.");
             }
             document.body.removeChild(textArea);
         }
@@ -552,7 +579,7 @@
                     .catch((error) => console.error("Share failed:", error));
             } else {
                 copyReferralCode();
-                showAlert("Share feature available nahi hai. Iske bajaye referral code copy kar diya gaya hai!");
+                showAlert("Share feature is not available. just copy your code!");
             }
         }
 
@@ -567,11 +594,11 @@
             }
 
             if (userData.dailyAdCount >= (appConfig.dailyAdLimit || 10)) {
-                return showAlert("Aapki aaj ki ad dekhne ki seema poori ho gayi hai.");
+                return showAlert("You reached you ads Watch limit.");
             }
             
             if (typeof window.show_9841479 !== 'function') {
-                return showAlert("Ad service abhi uplabdh nahi hai. Kripya baad mein prayas karein.");
+                return showAlert("Ads currently not available plaese wait");
             }
             
             let adPromise;
@@ -606,12 +633,12 @@
 
                 if (rewardAmount > 0) {
                     updateBalance(rewardAmount);
-                    showAlert(`Badhai ho! Aapne ${rewardAmount} coins jeete hain.`);
+                    showAlert(`congratulate! you earn${rewardAmount} coins.`);
                 }
                 updateAdsLeftCount();
             }).catch(e => {
                 console.error("Ad error:", e);
-                showAlert('Ad nahi dikhaya ja saka. Kripya baad mein prayas karein.');
+                showAlert('currently not available any ads please wait and try again.');
             });
         }
 
