@@ -626,21 +626,19 @@
                 
                 let rewardAmount = 0;
 
-switch(taskType) {
-    case 'miniApp':
-        rewardAmount = 15;
-        break;
-    case 'inApp':
-        rewardAmount = 12;
-        break;
-    case 'interstitial':
-        rewardAmount = 10;
-        break;
-    case 'popup':
-        rewardAmount = 8;
-        break;
-    default:
-        rewardAmount = 0;
+if (taskType === 'interstitial') {
+    rewardAmount = 10; // Interstitial Ad
+} else if (taskType === 'popup') {
+    rewardAmount = 5;  // Popup Ad
+} else if (taskType === 'inApp') {
+    rewardAmount = 8;  // In-App Ad
+} else if (taskType === 'miniApp') {
+    rewardAmount = 15; // Mini App Ad
+}
+
+if (rewardAmount > 0) {
+    updateBalance(rewardAmount);
+    showAlert(`Congratulations! You earned ${rewardAmount} coins.`);
 }
                 updateAdsLeftCount();
             }).catch(e => {
