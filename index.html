@@ -310,7 +310,7 @@
             const configRef = doc(db, "config", "main");
             try {
                 const configSnap = await getDoc(configRef);
-                appConfig = configSnap.exists() ? configSnap.data() : { minWithdrawal: 5000, paymentMethods: ["Bkash", "Bkash"], dailyAdLimit: 10, coinValueCoins: 1000, coinValueInr: 10 };
+                appConfig = configSnap.exists() ? configSnap.data() : { minWithdrawal: 5000, paymentMethods: ["Bkash", "Nagad"], dailyAdLimit: 10, coinValueCoins: 1000, coinValueInr: 10 };
             } catch (error) {
                 console.error("Error fetching app config:", error);
             }
