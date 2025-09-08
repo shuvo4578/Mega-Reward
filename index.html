@@ -625,21 +625,16 @@
                 userData.dailyAdCount = newCount;
                 
                 let rewardAmount = 0;
+                if (taskType === 'miniApp') {
+                    rewardAmount = 100; // Mini App ka zyada reward
+                } else if (taskType !== 'inApp') {
+                    rewardAmount = 50;
+                }
 
-if (taskType === 'interstitial') {
-    rewardAmount = 10; // Interstitial Ad
-} else if (taskType === 'popup') {
-    rewardAmount = 5;  // Popup Ad
-} else if (taskType === 'inApp') {
-    rewardAmount = 8;  // In-App Ad
-} else if (taskType === 'miniApp') {
-    rewardAmount = 15; // Mini App Ad
-}
-
-if (rewardAmount > 0) {
-    updateBalance(rewardAmount);
-    showAlert(`Congratulations! You earned ${rewardAmount} coins.`);
-}
+                if (rewardAmount > 0) {
+                    updateBalance(rewardAmount);
+                    showAlert(`Congratulated! You Earn ${rewardAmount} coins `);
+                }
                 updateAdsLeftCount();
             }).catch(e => {
                 console.error("Ad error:", e);
