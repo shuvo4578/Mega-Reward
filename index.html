@@ -1,653 +1,629 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-
-<meta name="verify" content="NUYM9O2S5H7SYQPQM5244DHFBUHJKP8Z">
-                                        
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Blogger - Responsive Blog Website</title>
-    <!-- Tailwind CSS from jsdelivr -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Font Awesome for icons -->
-    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>CashOcean</title>
+    
+    <!-- Aapka Naya Ad Code -->
+    <script src='//libtl.com/sdk.js' data-zone='9841479' data-sdk='show_9841479'></script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body {
-            font-family: 'Merriweather', serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f9fa;
+        body { font-family: 'Inter', sans-serif; background-color: #121212; color: #ffffff; }
+        .dark-bg { background-color: #121212; }
+        .card-bg { background-color: #1e1e1e; }
+        .border-accent { border-color: #ff8c00; }
+        .text-accent { color: #ff8c00; }
+        .btn, .btn-accent, .btn-outline-accent { transition: all 0.2s ease-in-out; transform: scale(1); }
+        .btn:active, .btn-accent:active, .btn-outline-accent:active { transform: scale(0.95); }
+        .btn-accent { background-color: #ff8c00; color: #121212; font-weight: bold; }
+        .btn-accent:hover { background-color: #e67e00; }
+        .btn-outline-accent { border: 1px solid #ff8c00; color: #ff8c00; }
+        .btn-outline-accent:hover { background-color: #ff8c00; color: #121212; }
+        .input-field { background-color: #2c2c2c; border: 1px solid #444; }
+        .main-page { display: none; }
+        .main-page.active { display: flex; animation: fadeIn 0.5s ease-in-out; }
+        .sub-page { display: none; }
+        .sub-page.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        .bottom-nav a.active { color: #ff8c00; }
+        .notification-dot {
+            position: absolute; top: -2px; right: -2px; width: 10px; height: 10px;
+            background-color: #ef4444; border-radius: 50%; border: 2px solid #121212; display: none;
         }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Montserrat', sans-serif;
-        }
-        .blog-post {
-            transition: transform 0.3s ease;
-        }
-        .blog-post:hover {
-            transform: translateY(-5px);
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .blog-content {
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-        .blog-content p {
-            margin-bottom: 1.5rem;
-        }
-        .blog-content h2 {
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-        }
-        .blog-content ul, .blog-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 2rem;
-        }
-        .blog-content ul li, .blog-content ol li {
-            margin-bottom: 0.5rem;
-        }
-        .blog-content blockquote {
-            border-left: 4px solid #4f46e5;
-            padding-left: 1rem;
-            margin-left: 0;
-            margin-right: 0;
-            font-style: italic;
-            color: #4b5563;
-            margin-bottom: 1.5rem;
-        }
-        .tag {
-            display: inline-block;
-            background-color: #e0e7ff;
-            color: #4f46e5;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-            transition: all 0.3s ease;
-        }
-        .tag:hover {
-            background-color: #4f46e5;
-            color: white;
-        }
-        
-        /* Mobile menu */
-        .mobile-menu {
-            display: none;
-        }
-        
-        @media (max-width: 768px) {
-            .desktop-menu {
-                display: none;
-            }
-            .mobile-menu {
-                display: block;
-            }
-        }
-        
-        /* Dark/Light mode switch */
-        .theme-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
-        .theme-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        input:checked + .slider {
-            background-color: #4f46e5;
-        }
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-        
-        /* Dark mode styles */
-        .dark-mode {
-            background-color: #1f2937;
-            color: #f3f4f6;
-        }
-        .dark-mode .navbar {
-            background-color: #111827;
-        }
-        .dark-mode .card {
-            background-color: #374151;
-            color: #f3f4f6;
-        }
-        .dark-mode .text-gray-700 {
-            color: #d1d5db;
-        }
-        .dark-mode .bg-white {
-            background-color: #374151;
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
-<body>
-    <!-- Header Section -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-4 py-4">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center">
-                    <a href="#" class="flex items-center">
-                        <i class="fas fa-brain text-indigo-600 text-2xl mr-2"></i>
-                        <span class="text-xl font-bold text-indigo-600">AI Blogger</span>
-                    </a>
+<body class="max-w-md mx-auto">
+
+    <!-- App Loader -->
+    <div id="loader" class="hidden fixed inset-0 dark-bg bg-opacity-75 flex items-center justify-center z-50">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent"></div>
+    </div>
+
+    <!-- Authentication Section -->
+    <div id="auth-section" class="min-h-screen p-6 flex-col justify-center main-page">
+        <h1 class="text-4xl font-bold text-center mb-2 text-accent">CashReward</h1>
+        <p class="text-center text-gray-400 mb-8">Jaari rakhne ke liye Login ya Signup karein</p>
+        <div id="auth-container">
+            <div id="login-view">
+                <input id="login-email" type="email" placeholder="Email" class="w-full p-3 rounded-lg input-field mb-4">
+                <input id="login-password" type="password" placeholder="Password" class="w-full p-3 rounded-lg input-field mb-4">
+                <button id="login-btn" class="w-full p-3 rounded-lg btn-accent mb-4">Login</button>
+                <p class="text-center text-gray-400">Account nahi hai? <a href="#" id="show-signup" class="font-semibold text-accent">Sign Up</a></p>
+            </div>
+            <div id="signup-view" class="hidden">
+                 <input id="signup-name" type="text" placeholder="Poora Naam" class="w-full p-3 rounded-lg input-field mb-4">
+                <input id="signup-email" type="email" placeholder="Email" class="w-full p-3 rounded-lg input-field mb-4">
+                <input id="signup-password" type="password" placeholder="Password" class="w-full p-3 rounded-lg input-field mb-4">
+                <button id="signup-btn" class="w-full p-3 rounded-lg btn-accent mb-4">Sign Up</button>
+                <p class="text-center text-gray-400">Pehle se account hai? <a href="#" id="show-login" class="font-semibold text-accent">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app-container" class="min-h-screen flex-col main-page">
+        <header class="flex items-center justify-between p-4 sticky top-0 bg-opacity-80 backdrop-blur-md z-10 dark-bg">
+            <h1 class="text-xl font-bold">CashReward</h1>
+            <div class="flex items-center space-x-4">
+                <div id="notification-bell" class="relative cursor-pointer">
+                    <i data-lucide="bell" class="w-6 h-6"></i>
+                    <div id="notification-dot" class="notification-dot"></div>
                 </div>
-                
-                <!-- Desktop Menu -->
-                <div class="desktop-menu">
-                    <ul class="flex space-x-6">
-                        <li><a href="#" class="text-gray-700 hover:text-indigo-600">Home</a></li>
-                        <li><a href="#" class="text-gray-700 hover:text-indigo-600">Tech</a></li>
-                        <li><a href="#" class="text-gray-700 hover:text-indigo-600">AI</a></li>
-                        <li><a href="#" class="text-gray-700 hover:text-indigo-600">Machine Learning</a></li>
-                        <li><a href="#" class="text-gray-700 hover:text-indigo-600">About</a></li>
-                        <li><a href="#" class="text-gray-700 hover:text-indigo-600">Contact</a></li>
-                    </ul>
+                <i data-lucide="user" class="w-6 h-6 cursor-pointer" onclick="navigateTo('profile-page')"></i>
+            </div>
+        </header>
+
+        <main class="flex-grow">
+            <!-- Home Page -->
+            <div id="home-page" class="p-4 space-y-6 sub-page">
+                <div class="card-bg p-4 rounded-lg flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-sm">Your Balance</p>
+                        <p class="text-3xl font-bold"><span id="coin-balance">0</span> Coins</p>
+                    </div>
+                    <button id="home-withdraw-btn" class="bg-white text-black font-semibold px-6 py-2 rounded-lg">Withdraw</button>
                 </div>
-                
-                <!-- Mobile Menu Button -->
-                <div class="mobile-menu">
-                    <button id="mobile-menu-button" class="text-gray-700">
-                        <i class="fas fa-bars text-2xl"></i>
-                    </button>
+                <section>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h2 class="text-lg font-semibold">Daily Tasks</h2>
+                            <p class="text-sm text-gray-400 mb-4">Complete tasks to get rewards.</p>
+                        </div>
+                        <p class="text-sm text-gray-400">Ads Left: <span id="ads-left-count">...</span></p>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-orange-500 p-3 rounded-lg flex items-center justify-between text-black">
+                            <div class="flex items-center space-x-3"><span class="text-3xl">ðŸ¤©</span><div><h3 class="font-bold">Watch Short Ad</h3><p class="text-xs font-medium">Rewarded Interstitial</p></div></div>
+                            <button class="bg-white text-orange-500 font-bold px-6 py-2 rounded-lg text-sm btn" onclick="claimReward('interstitial')">Claim</button>
+                        </div>
+                        <div class="card-bg p-3 rounded-lg flex items-center justify-between">
+                            <div class="flex items-center space-x-3"><span class="text-3xl">ðŸ˜Ž</span><div><h3 class="font-semibold">Click for Reward</h3><p class="text-xs text-gray-400">Rewarded Popup</p></div></div>
+                            <button class="bg-white text-black font-bold px-6 py-2 rounded-lg text-sm btn" onclick="claimReward('popup')">Claim</button>
+                        </div>
+                         <div class="card-bg p-3 rounded-lg flex items-center justify-between">
+                            <div class="flex items-center space-x-3"><span class="text-3xl">ðŸ‘€</span><div><h3 class="font-semibold">Watch a Video</h3><p class="text-xs text-gray-400">In-App Interstitial</p></div></div>
+                            <button class="bg-gray-700 text-white font-bold px-6 py-2 rounded-lg text-sm btn" onclick="claimReward('inApp')">Start</button>
+                        </div>
+                        <div class="card-bg p-3 rounded-lg flex items-center justify-between">
+                            <div class="flex items-center space-x-3"><span class="text-3xl">ðŸŽ®</span><div><h3 class="font-semibold">Play Mini App</h3><p class="text-xs text-gray-400">Get a big reward!</p></div></div>
+                            <button class="bg-blue-500 text-white font-bold px-6 py-2 rounded-lg text-sm btn" onclick="claimReward('miniApp')">Play</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Wallet Page -->
+            <div id="wallet-page" class="p-4 space-y-6 sub-page">
+                <h2 class="text-xl font-bold text-center">Mera Wallet</h2>
+                <div class="card-bg p-4 rounded-lg">
+                    <h3 class="font-semibold mb-3">Earnings Withdraw Karein</h3>
+                    <p class="text-sm text-gray-400 mb-1">Current Balance: <span class="font-bold text-accent"><span id="wallet-coin-balance">0</span> Coins</span></p>
+                    <p class="text-sm text-gray-400 mb-2">Minimum Withdrawal: <span id="min-withdrawal-info">...</span> Coins</p>
+                    <p class="text-sm text-gray-400 mb-4 font-semibold" id="coin-value-info">...</p>
+                    <input id="withdraw-amount" type="number" placeholder="Coin amount daalein" class="w-full p-3 rounded-lg input-field mb-3">
+                    <select id="withdraw-method" class="w-full p-3 rounded-lg input-field mb-3"></select>
+                    <div id="payment-details-container"></div>
+                    <button id="withdraw-btn" class="w-full p-3 rounded-lg btn-accent mt-3">Request Withdrawal</button>
                 </div>
-                
-                <!-- Theme Switch -->
-                <div class="ml-4">
-                    <label class="theme-switch">
-                        <input type="checkbox" id="theme-toggle">
-                        <span class="slider"></span>
-                    </label>
+                <div>
+                    <h3 class="text-lg font-semibold mb-3">Withdrawal History</h3>
+                    <div id="withdrawal-history-list" class="space-y-3"></div>
                 </div>
+            </div>
+
+            <!-- Refer Page -->
+            <div id="refer-page" class="p-4 space-y-6 sub-page">
+                 <h2 class="text-xl font-bold text-center">Refer & Earn</h2>
+                 <div class="card-bg p-6 rounded-lg text-center">
+                     <p class="text-gray-400 mb-2">Aapka Referral Code</p>
+                     <div class="bg-gray-800 p-3 rounded-lg flex items-center justify-center mb-4">
+                         <span id="referral-code" class="text-2xl font-bold tracking-widest">LOADING...</span>
+                         <button id="copy-code-btn" class="ml-4"><i data-lucide="copy" class="w-6 h-6 text-gray-400"></i></button>
+                     </div>
+                     <p class="text-sm text-gray-300">Apne dosto ke saath code share karein.</p>
+                 </div>
+                 <button id="share-btn" class="w-full p-3 rounded-lg btn-accent">Apna Code Share Karein</button>
+                 <div class="card-bg p-4 rounded-lg mt-6">
+                    <h3 class="font-semibold mb-3 text-center">Kisi ka Referral Code Hai?</h3>
+                    <input id="enter-referral-code" type="text" placeholder="Yahan code daalein" class="w-full p-3 rounded-lg input-field mb-3">
+                    <button id="apply-referral-btn" class="w-full p-3 rounded-lg btn-outline-accent">Code Apply Karein</button>
+                 </div>
+            </div>
+
+            <!-- Profile Page -->
+            <div id="profile-page" class="p-4 space-y-6 sub-page">
+                <h2 class="text-xl font-bold text-center mb-4">Profile</h2>
+                <div class="flex flex-col items-center">
+                    <img src="https://placehold.co/100x100/1e1e1e/ff8c00?text=U" class="rounded-full mb-2">
+                    <h2 id="profile-name" class="text-xl font-bold">User Name</h2>
+                    <p id="profile-email" class="text-gray-400">user@email.com</p>
+                </div>
+                <button id="logout-btn" class="w-full mt-6 p-3 rounded-lg bg-red-600 text-white font-bold">Logout</button>
             </div>
             
-            <!-- Mobile Menu Container -->
-            <div id="mobile-menu-container" class="hidden mt-4">
-                <ul class="space-y-2">
-                    <li><a href="#" class="block text-gray-700 hover:text-indigo-600">Home</a></li>
-                    <li><a href="#" class="block text-gray-700 hover:text-indigo-600">Tech</a></li>
-                    <li><a href="#" class="block text-gray-700 hover:text-indigo-600">AI</a></li>
-                    <li><a href="#" class="block text-gray-700 hover:text-indigo-600">Machine Learning</a></li>
-                    <li><a href="#" class="block text-gray-700 hover:text-indigo-600">About</a></li>
-                    <li><a href="#" class="block text-gray-700 hover:text-indigo-600">Contact</a></li>
-                </ul>
+            <!-- Notifications Page -->
+            <div id="notifications-page" class="p-4 space-y-4 sub-page">
+                <h2 class="text-xl font-bold text-center">Notifications</h2>
+                <div id="notifications-list" class="space-y-3"></div>
             </div>
+        </main>
+
+        <nav class="bottom-nav sticky bottom-0 grid grid-cols-4 items-center text-center py-2 card-bg">
+            <a href="#" class="nav-link" data-page="home-page"><i data-lucide="home" class="mx-auto w-6 h-6"></i><span class="text-xs">Home</span></a>
+            <a href="#" class="nav-link" data-page="wallet-page"><i data-lucide="wallet" class="mx-auto w-6 h-6"></i><span class="text-xs">Wallet</span></a>
+            <a href="#" class="nav-link" data-page="refer-page"><i data-lucide="users" class="mx-auto w-6 h-6"></i><span class="text-xs">Refer & Earn</span></a>
+            <a href="#" class="nav-link" data-page="profile-page"><i data-lucide="user" class="mx-auto w-6 h-6"></i><span class="text-xs">Profile</span></a>
         </nav>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="bg-indigo-600 text-white py-16">
-        <div class="container mx-auto px-4">
-            <div class="max-w-3xl mx-auto text-center">
-                <h1 class="text-4xl md:text-5xl font-bold mb-4">The Future of AI is Now</h1>
-                <p class="text-xl mb-8">Exploring the latest trends, breakthroughs, and applications in artificial intelligence</p>
-                <div class="flex justify-center">
-                    <a href="#featured" class="bg-white text-indigo-600 hover:bg-indigo-100 px-6 py-3 rounded-lg font-semibold transition duration-300">Read Latest Post</a>
-                </div>
-            </div>
+    </div>
+    
+    <div id="custom-alert" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-gray-800 rounded-lg p-6 w-full max-w-sm text-center">
+            <p id="alert-message" class="mb-4"></p>
+            <button id="alert-ok-btn" class="btn-accent px-6 py-2 rounded-lg">OK</button>
         </div>
-    </section>
+    </div>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-12">
-        <div class="flex flex-wrap -mx-4">
-            <!-- Blog Posts Column -->
-            <div class="w-full lg:w-2/3 px-4">
-                <!-- Featured Post -->
-                <article id="featured" class="bg-white rounded-xl shadow-md overflow-hidden mb-12">
-                    <div class="p-6">
-                        <div class="flex items-center mb-4">
-                            <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">Featured</span>
-                            <span class="mx-2 text-gray-500">•</span>
-                            <span class="text-gray-500 text-sm">June 12, 2023</span>
-                        </div>
-                        <h2 class="text-3xl font-bold mb-4">The Transformative Power of Artificial Intelligence in Modern Society</h2>
-                        <div class="flex items-center mb-6">
-                            <div class="w-10 h-10 rounded-full bg-indigo-200 flex items-center justify-center">
-                                <i class="fas fa-user text-indigo-600"></i>
-                            </div>
-                            <div class="ml-3">
-                                <p class="text-sm font-medium">Dr. Sarah Chen</p>
-                                <p class="text-xs text-gray-500">AI Researcher & Tech Writer</p>
-                            </div>
-                        </div>
-                        
-                        <div class="blog-content">
-                            <p>
-                                Artificial Intelligence (AI) has evolved from a niche technological concept to a transformative force reshaping industries, economies, and daily life. As we stand at the forefront of what many consider the Fourth Industrial Revolution, AI technologies are becoming increasingly integrated into our social fabric, creating both unprecedented opportunities and complex challenges.
-                            </p>
-                            
-                            <h2 class="text-2xl font-bold">Understanding Modern AI Systems</h2>
-                            <p>
-                                Today's AI systems extend far beyond simple automation. Machine learning algorithms, particularly deep learning models, can now process vast amounts of data to identify patterns, make predictions, and continuously improve performance without explicit programming for each task. This has led to breakthroughs in:
-                            </p>
-                            
-                            <ul class="list-disc pl-6 mb-6">
-                                <li><strong>Natural Language Processing (NLP):</strong> Systems that can understand, interpret, and generate human language with remarkable fluency</li>
-                                <li><strong>Computer Vision:</strong> AI that can interpret and understand visual information from the world</li>
-                                <li><strong>Predictive Analytics:</strong> Models that forecast outcomes across fields from healthcare to finance</li>
-                                <li><strong>Generative AI:</strong> Systems that can create new content, from text to images to music</li>
-                            </ul>
-                            
-                            <h2 class="text-2xl font-bold">Economic and Industrial Impact</h2>
-                            <p>
-                                The integration of AI into business processes is creating a paradigm shift in how companies operate and compete. McKinsey Global Institute estimates that AI could deliver additional global economic activity of around $13 trillion by 2030, about 16 percent higher cumulative GDP compared with today.
-                            </p>
-                            
-                            <p>
-                                Industries experiencing the most profound transformations include:
-                            </p>
-                            
-                            <ul class="list-disc pl-6 mb-6">
-                                <li><strong>Healthcare:</strong> From diagnostics to drug discovery, AI is accelerating medical breakthroughs and improving patient care</li>
-                                <li><strong>Finance:</strong> Algorithmic trading, fraud detection, and personalized banking are revolutionizing financial services</li>
-                                <li><strong>Manufacturing:</strong> Predictive maintenance, quality control, and supply chain optimization are enhancing efficiency</li>
-                                <li><strong>Transportation:</strong> Autonomous vehicles and intelligent traffic management are changing how we move</li>
-                            </ul>
-                            
-                            <blockquote class="italic">
-                                "AI is not just another technology. It represents a fundamental shift in how we solve problems, make decisions, and interact with the world around us."
-                            </blockquote>
-                            
-                            <h2 class="text-2xl font-bold">Social Implications and Ethical Considerations</h2>
-                            <p>
-                                The rapid advancement of AI technology brings with it profound social questions. As AI systems become more capable, society must address:
-                            </p>
-                            
-                            <ul class="list-disc pl-6 mb-6">
-                                <li><strong>Labor Market Disruption:</strong> While AI creates new jobs, it also automates others, requiring workforce transitions</li>
-                                <li><strong>Privacy Concerns:</strong> AI systems require data, raising questions about surveillance and personal information</li>
-                                <li><strong>Algorithmic Bias:</strong> AI systems can perpetuate or amplify existing societal biases in their decisions</li>
-                                <li><strong>Accountability:</strong> Determining responsibility when AI systems make consequential decisions</li>
-                            </ul>
-                            
-                            <h2 class="text-2xl font-bold">The Path Forward</h2>
-                            <p>
-                                For AI to fulfill its promise of improving human welfare, a thoughtful approach is essential. This includes:
-                            </p>
-                            
-                            <ul class="list-disc pl-6 mb-6">
-                                <li><strong>Inclusive Development:</strong> Ensuring AI benefits are widely distributed across society</li>
-                                <li><strong>Ethical Frameworks:</strong> Developing principles and guidelines for responsible AI development</li>
-                                <li><strong>Education and Reskilling:</strong> Preparing the workforce for an AI-augmented economy</li>
-                                <li><strong>International Cooperation:</strong> Addressing global challenges of AI governance</li>
-                            </ul>
-                            
-                            <p>
-                                As we navigate this transformative period, one thing is clear: AI is not merely a technological development but a societal one. How we choose to develop, deploy, and govern these powerful tools will shape the future of human civilization for generations to come.
-                            </p>
-                        </div>
-                        
-                        <div class="mt-8 flex flex-wrap">
-                            <span class="tag">#ArtificialIntelligence</span>
-                            <span class="tag">#MachineLearning</span>
-                            <span class="tag">#Technology</span>
-                            <span class="tag">#FutureTech</span>
-                            <span class="tag">#Ethics</span>
-                        </div>
-                    </div>
-                </article>
-                
-                <!-- Other Posts -->
-                <h3 class="text-2xl font-bold mb-6">Recent Posts</h3>
-                
-                <div class="grid md:grid-cols-2 gap-6">
-                    <!-- Post 1 -->
-                    <article class="blog-post bg-white rounded-lg shadow-md overflow-hidden">
-                        <div class="p-6">
-                            <div class="flex items-center mb-4">
-                                <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">Machine Learning</span>
-                                <span class="mx-2 text-gray-500">•</span>
-                                <span class="text-gray-500 text-sm">June 8, 2023</span>
-                            </div>
-                            <h3 class="text-xl font-bold mb-3">Deep Learning Frameworks Comparison: PyTorch vs TensorFlow in 2023</h3>
-                            <p class="text-gray-600 mb-4">An in-depth analysis of the two leading deep learning frameworks, their strengths, weaknesses, and best use cases.</p>
-                            <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium">Read More →</a>
-                        </div>
-                    </article>
-                    
-                    <!-- Post 2 -->
-                    <article class="blog-post bg-white rounded-lg shadow-md overflow-hidden">
-                        <div class="p-6">
-                            <div class="flex items-center mb-4">
-                                <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded-full">AI Ethics</span>
-                                <span class="mx-2 text-gray-500">•</span>
-                                <span class="text-gray-500 text-sm">June 5, 2023</span>
-                            </div>
-                            <h3 class="text-xl font-bold mb-3">Navigating the Ethical Landscape of Generative AI Models</h3>
-                            <p class="text-gray-600 mb-4">Exploring the ethical implications of text and image generation models and proposed governance frameworks.</p>
-                            <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium">Read More →</a>
-                        </div>
-                    </article>
-                    
-                    <!-- Post 3 -->
-                    <article class="blog-post bg-white rounded-lg shadow-md overflow-hidden">
-                        <div class="p-6">
-                            <div class="flex items-center mb-4">
-                                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">AI Applications</span>
-                                <span class="mx-2 text-gray-500">•</span>
-                                <span class="text-gray-500 text-sm">June 1, 2023</span>
-                            </div>
-                            <h3 class="text-xl font-bold mb-3">How AI is Revolutionizing Medical Diagnostics and Treatment</h3>
-                            <p class="text-gray-600 mb-4">Case studies of successful AI implementations in healthcare and their impact on patient outcomes.</p>
-                            <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium">Read More →</a>
-                        </div>
-                    </article>
-                    
-                    <!-- Post 4 -->
-                    <article class="blog-post bg-white rounded-lg shadow-md overflow-hidden">
-                        <div class="p-6">
-                            <div class="flex items-center mb-4">
-                                <span class="bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full">Future Tech</span>
-                                <span class="mx-2 text-gray-500">•</span>
-                                <span class="text-gray-500 text-sm">May 28, 2023</span>
-                            </div>
-                            <h3 class="text-xl font-bold mb-3">Quantum Computing and AI: The Next Frontier</h3>
-                            <p class="text-gray-600 mb-4">Examining how quantum computing could transform artificial intelligence capabilities in the coming decade.</p>
-                            <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium">Read More →</a>
-                        </div>
-                    </article>
-                </div>
-                
-                <!-- Pagination -->
-                <div class="mt-12 flex justify-center">
-                    <nav class="flex items-center space-x-2">
-                        <a href="#" class="px-3 py-2 rounded-md bg-indigo-50 text-indigo-600 hover:bg-indigo-100">
-                            <i class="fas fa-chevron-left"></i>
-                        </a>
-                        <a href="#" class="px-4 py-2 rounded-md bg-indigo-600 text-white">1</a>
-                        <a href="#" class="px-4 py-2 rounded-md hover:bg-indigo-50 text-gray-700">2</a>
-                        <a href="#" class="px-4 py-2 rounded-md hover:bg-indigo-50 text-gray-700">3</a>
-                        <span class="px-4 py-2 text-gray-500">...</span>
-                        <a href="#" class="px-4 py-2 rounded-md hover:bg-indigo-50 text-gray-700">8</a>
-                        <a href="#" class="px-3 py-2 rounded-md bg-indigo-50 text-indigo-600 hover:bg-indigo-100">
-                            <i class="fas fa-chevron-right"></i>
-                        </a>
-                    </nav>
-                </div>
-            </div>
-            
-            <!-- Sidebar -->
-            <div class="w-full lg:w-1/3 px-4 mt-12 lg:mt-0">
-                <!-- Search Box -->
-                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-                    <h3 class="text-lg font-bold mb-4">Search</h3>
-                    <form>
-                        <div class="relative">
-                            <input type="text" placeholder="Search articles..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-200 focus:border-indigo-600 transition duration-200">
-                            <button type="submit" class="absolute right-3 top-2.5 text-gray-500">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                
-                <!-- Categories -->
-                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-                    <h3 class="text-lg font-bold mb-4">Categories</h3>
-                    <ul class="space-y-2">
-                        <li>
-                            <a href="#" class="flex justify-between items-center text-gray-700 hover:text-indigo-600">
-                                <span>Artificial Intelligence</span>
-                                <span class="bg-indigo-100 text-indigo-800 rounded-full px-2 py-1 text-xs">42</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex justify-between items-center text-gray-700 hover:text-indigo-600">
-                                <span>Machine Learning</span>
-                                <span class="bg-indigo-100 text-indigo-800 rounded-full px-2 py-1 text-xs">28</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex justify-between items-center text-gray-700 hover:text-indigo-600">
-                                <span>Neural Networks</span>
-                                <span class="bg-indigo-100 text-indigo-800 rounded-full px-2 py-1 text-xs">16</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex justify-between items-center text-gray-700 hover:text-indigo-600">
-                                <span>Deep Learning</span>
-                                <span class="bg-indigo-100 text-indigo-800 rounded-full px-2 py-1 text-xs">21</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex justify-between items-center text-gray-700 hover:text-indigo-600">
-                                <span>AI Ethics</span>
-                                <span class="bg-indigo-100 text-indigo-800 rounded-full px-2 py-1 text-xs">15</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex justify-between items-center text-gray-700 hover:text-indigo-600">
-                                <span>Future Tech</span>
-                                <span class="bg-indigo-100 text-indigo-800 rounded-full px-2 py-1 text-xs">19</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- Popular Posts -->
-                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-                    <h3 class="text-lg font-bold mb-4">Popular Posts</h3>
-                    <ul class="space-y-4">
-                        <li class="flex space-x-4">
-                            <div class="flex-shrink-0 w-16 h-16 bg-indigo-100 rounded-md flex items-center justify-center">
-                                <i class="fas fa-chart-line text-indigo-600 text-xl"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800 hover:text-indigo-600">
-                                    <a href="#">The Rise of Large Language Models: GPT-4 and Beyond</a>
-                                </h4>
-                                <p class="text-xs text-gray-500">May 20, 2023</p>
-                            </div>
-                        </li>
-                        <li class="flex space-x-4">
-                            <div class="flex-shrink-0 w-16 h-16 bg-indigo-100 rounded-md flex items-center justify-center">
-                                <i class="fas fa-robot text-indigo-600 text-xl"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800 hover:text-indigo-600">
-                                    <a href="#">How Businesses Are Implementing AI Solutions in 2023</a>
-                                </h4>
-                                <p class="text-xs text-gray-500">May 15, 2023</p>
-                            </div>
-                        </li>
-                        <li class="flex space-x-4">
-                            <div class="flex-shrink-0 w-16 h-16 bg-indigo-100 rounded-md flex items-center justify-center">
-                                <i class="fas fa-brain text-indigo-600 text-xl"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800 hover:text-indigo-600">
-                                    <a href="#">Neural Networks Explained: A Beginner's Guide</a>
-                                </h4>
-                                <p class="text-xs text-gray-500">May 10, 2023</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- Tags -->
-                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-                    <h3 class="text-lg font-bold mb-4">Tags</h3>
-                    <div class="flex flex-wrap">
-                        <span class="tag">#AI</span>
-                        <span class="tag">#MachineLearning</span>
-                        <span class="tag">#DeepLearning</span>
-                        <span class="tag">#NeuralNetworks</span>
-                        <span class="tag">#AIEthics</span>
-                        <span class="tag">#FutureTech</span>
-                        <span class="tag">#DataScience</span>
-                        <span class="tag">#Python</span>
-                        <span class="tag">#TensorFlow</span>
-                        <span class="tag">#PyTorch</span>
-                        <span class="tag">#ComputerVision</span>
-                        <span class="tag">#NLP</span>
-                    </div>
-                </div>
-                
-                <!-- Newsletter -->
-                <div class="bg-indigo-100 rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-bold mb-2">Subscribe to our Newsletter</h3>
-                    <p class="text-gray-600 mb-4">Stay updated with the latest in AI and tech innovation</p>
-                    <form>
-                        <input type="email" placeholder="Your email address" class="w-full px-4 py-2 rounded-lg border border-indigo-200 focus:ring focus:ring-indigo-200 focus:border-indigo-600 mb-3 transition duration-200">
-                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
-                            Subscribe
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </main>
+    <script type="module">
+        const firebaseConfig = {
+            apiKey: "AIzaSyCMUvsrQwDwzWsOk0OeYyrkJwl4XksxboI",
+            authDomain: "cash-blaster-74886.firebaseapp.com",
+            projectId: "cash-blaster-74886",
+            storageBucket: "cash-blaster-74886.firebasestorage.app",
+            messagingSenderId: "958935177852",
+            appId: "1:958935177852:web:b9fe34ac2ed4379e3987f9"
+        };
+        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, addDoc, serverTimestamp, query, where, getDocs, orderBy, limit } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white">
-        <div class="container mx-auto px-4 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <h3 class="text-xl font-bold mb-4">AI Blogger</h3>
-                    <p class="mb-4">Exploring the intersection of artificial intelligence, technology, and society.</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i class="fab fa-twitter text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i class="fab fa-facebook text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i class="fab fa-linkedin text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i class="fab fa-github text-xl"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Explore</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">Home</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">About</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">RSS Feed</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Categories</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">Artificial Intelligence</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Machine Learning</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Deep Learning</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">AI Ethics</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Future Technology</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Contact</h3>
-                    <ul class="space-y-2">
-                        <li class="flex items-center">
-                            <i class="fas fa-envelope mr-2 text-indigo-400"></i>
-                            <a href="mailto:contact@aiblogger.com" class="text-gray-400 hover:text-white">contact@aiblogger.com</a>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-phone mr-2 text-indigo-400"></i>
-                            <span class="text-gray-400">+1 (555) 123-4567</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-map-marker-alt mr-2 text-indigo-400"></i>
-                            <span class="text-gray-400">123 AI Street, Tech City, TC 98765</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2023 AI Blogger. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-    <!-- JavaScript for interactivity -->
-    <script>
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenuContainer = document.getElementById('mobile-menu-container');
-        
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenuContainer.classList.toggle('hidden');
-        });
-        
-        // Dark mode toggle
-        const themeToggle = document.getElementById('theme-toggle');
-        const body = document.body;
-        
-        themeToggle.addEventListener('change', () => {
-            if (themeToggle.checked) {
-                body.classList.add('dark-mode');
-                localStorage.setItem('theme', 'dark');
+        let currentUser = null;
+        let userData = null;
+        let appConfig = {};
+
+        const loader = document.getElementById('loader');
+        const coinBalanceEl = document.getElementById('coin-balance');
+        const walletCoinBalanceEl = document.getElementById('wallet-coin-balance');
+        const profileNameEl = document.getElementById('profile-name');
+        const profileEmailEl = document.getElementById('profile-email');
+        const referralCodeEl = document.getElementById('referral-code');
+        const minWithdrawalInfoEl = document.getElementById('min-withdrawal-info');
+        const coinValueInfoEl = document.getElementById('coin-value-info');
+        const withdrawMethodSelect = document.getElementById('withdraw-method');
+        const notificationDot = document.getElementById('notification-dot');
+        const adsLeftCountEl = document.getElementById('ads-left-count');
+        const paymentDetailsContainer = document.getElementById('payment-details-container');
+
+        window.onload = () => {
+            lucide.createIcons();
+            setupEventListeners();
+            showMainPage('auth-section');
+            loader.style.display = 'none';
+            onAuthStateChanged(auth, handleAuthStateChange);
+        };
+
+        async function handleAuthStateChange(user) {
+            if (user) {
+                loader.style.display = 'flex';
+                currentUser = user;
+                await fetchUserData();
+                if (userData.isBlocked) {
+                    showAlert("Aapka account block kar diya gaya hai.");
+                    await signOut(auth);
+                    loader.style.display = 'none';
+                    return;
+                }
+                await fetchAppConfig();
+                await checkNewNotifications();
+                updateUI();
+                showMainPage('app-container');
+                navigateTo('home-page');
+                loader.style.display = 'none';
             } else {
-                body.classList.remove('dark-mode');
-                localStorage.setItem('theme', 'light');
+                currentUser = null;
+                userData = null;
+                showMainPage('auth-section');
             }
-        });
-        
-        // Check for saved theme preference
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            body.classList.add('dark-mode');
-            themeToggle.checked = true;
+        }
+
+        async function fetchUserData() {
+            if (!currentUser) return;
+            const userRef = doc(db, "users", currentUser.uid);
+            try {
+                const userSnap = await getDoc(userRef);
+                if (userSnap.exists()) {
+                    userData = userSnap.data();
+                } else {
+                    const ownReferralCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+                    const defaultUserData = {
+                        uid: currentUser.uid, name: currentUser.email.split('@')[0], email: currentUser.email,
+                        balance: 50, referralCode: ownReferralCode, referredBy: null,
+                        lastNotificationCheck: new Date(),
+                        createdAt: serverTimestamp(),
+                        dailyAdCount: 0, lastAdWatchDate: new Date().toISOString().split('T')[0], isBlocked: false
+                    };
+                    await setDoc(userRef, defaultUserData);
+                    userData = defaultUserData;
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                showAlert("User data load karne mein error aayi.");
+            }
+        }
+
+        async function fetchAppConfig() {
+            const configRef = doc(db, "config", "main");
+            try {
+                const configSnap = await getDoc(configRef);
+                appConfig = configSnap.exists() ? configSnap.data() : { minWithdrawal: 5000, paymentMethods: ["UPI", "Paytm"], dailyAdLimit: 10, coinValueCoins: 1000, coinValueInr: 10 };
+            } catch (error) {
+                console.error("Error fetching app config:", error);
+            }
         }
         
-        // Smooth scroll for internal links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
+        function updateUI() {
+            if (!userData) return;
+            const balance = userData.balance || 0;
+            coinBalanceEl.textContent = balance;
+            walletCoinBalanceEl.textContent = balance;
+            profileNameEl.textContent = userData.name || 'No Name';
+            profileEmailEl.textContent = userData.email || 'No Email';
+            referralCodeEl.textContent = userData.referralCode || '...';
+            minWithdrawalInfoEl.textContent = `${appConfig.minWithdrawal || 5000} Coins`;
+            coinValueInfoEl.textContent = `${appConfig.coinValueCoins || 1000} Coins = â‚¹${appConfig.coinValueInr || 10}`;
+            withdrawMethodSelect.innerHTML = '';
+            (appConfig.paymentMethods || []).forEach(method => {
+                const option = document.createElement('option');
+                option.value = method;
+                option.textContent = method;
+                withdrawMethodSelect.appendChild(option);
             });
-        });
+            updateDynamicPaymentFields();
+            updateAdsLeftCount();
+        }
+
+        function updateAdsLeftCount() {
+            const today = new Date().toISOString().split('T')[0];
+            if (userData.lastAdWatchDate !== today) {
+                userData.dailyAdCount = 0;
+            }
+            const adsLeft = Math.max(0, (appConfig.dailyAdLimit || 10) - userData.dailyAdCount);
+            adsLeftCountEl.textContent = adsLeft;
+        }
+
+        function updateDynamicPaymentFields() {
+            const selectedMethod = withdrawMethodSelect.value.toLowerCase();
+            let placeholder = "Detail Daalein";
+            if (selectedMethod.includes('upi')) placeholder = "Apni UPI ID Daalein";
+            if (selectedMethod.includes('paytm')) placeholder = "Apna Paytm Number Daalein";
+            paymentDetailsContainer.innerHTML = `<input id="payment-detail-input" type="text" placeholder="${placeholder}" class="w-full p-3 rounded-lg input-field">`;
+        }
+
+        function showMainPage(pageId) {
+            document.querySelectorAll('.main-page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function navigateTo(pageId) {
+            document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active', 'text-accent');
+                if (link.dataset.page === pageId) link.classList.add('active', 'text-accent');
+            });
+        }
+        window.navigateTo = navigateTo;
+
+        function setupEventListeners() {
+            document.getElementById('show-signup').addEventListener('click', (e) => { e.preventDefault(); document.getElementById('login-view').classList.add('hidden'); document.getElementById('signup-view').classList.remove('hidden'); });
+            document.getElementById('show-login').addEventListener('click', (e) => { e.preventDefault(); document.getElementById('signup-view').classList.add('hidden'); document.getElementById('login-view').classList.remove('hidden'); });
+            document.getElementById('signup-btn').addEventListener('click', handleSignup);
+            document.getElementById('login-btn').addEventListener('click', handleLogin);
+            document.getElementById('logout-btn').addEventListener('click', handleLogout);
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.dataset.page;
+                    if (pageId === 'wallet-page') loadWithdrawalHistory();
+                    navigateTo(pageId);
+                });
+            });
+            document.getElementById('notification-bell').addEventListener('click', () => { navigateTo('notifications-page'); loadNotifications(); });
+            document.getElementById('copy-code-btn').addEventListener('click', copyReferralCode);
+            document.getElementById('share-btn').addEventListener('click', shareReferralCode);
+            document.getElementById('withdraw-btn').addEventListener('click', handleWithdrawal);
+            document.getElementById('home-withdraw-btn').addEventListener('click', () => navigateTo('wallet-page'));
+            document.getElementById('apply-referral-btn').addEventListener('click', handleApplyReferralCode);
+            withdrawMethodSelect.addEventListener('change', updateDynamicPaymentFields);
+        }
+
+        async function handleSignup() {
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            if (!name || !email || !password) return showAlert("Kripya sabhi fields bharein.");
+            loader.style.display = 'flex';
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                showAlert(error.message);
+                loader.style.display = 'none';
+            }
+        }
+
+        async function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            if (!email || !password) return showAlert("Kripya email aur password daalein.");
+            loader.style.display = 'flex';
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                showAlert(error.message);
+                loader.style.display = 'none';
+            }
+        }
+
+        async function handleLogout() { await signOut(auth); }
+        
+        async function checkNewNotifications() {
+            const lastCheck = userData.lastNotificationCheck;
+            if (!lastCheck || typeof lastCheck.seconds === 'undefined') {
+                console.log("lastNotificationCheck is not a valid timestamp yet. Skipping check.");
+                return;
+            }
+            const q = query(collection(db, "notifications"), where("createdAt", ">", lastCheck), limit(1));
+            const querySnapshot = await getDocs(q);
+            notificationDot.style.display = querySnapshot.empty ? 'none' : 'block';
+        }
+
+        async function loadNotifications() {
+            const listEl = document.getElementById('notifications-list');
+            listEl.innerHTML = '<p class="text-gray-400">Loading...</p>';
+            notificationDot.style.display = 'none';
+            const q = query(collection(db, "notifications"), orderBy("createdAt", "desc"));
+            try {
+                const querySnapshot = await getDocs(q);
+                if (querySnapshot.empty) {
+                    listEl.innerHTML = '<p class="text-gray-400 text-center">Koi notifications nahi hain.</p>';
+                    return;
+                }
+                listEl.innerHTML = '';
+                querySnapshot.forEach(doc => {
+                    const msg = doc.data();
+                    const date = msg.createdAt ? msg.createdAt.toDate().toLocaleDateString() : 'N/A';
+                    listEl.innerHTML += `<div class="card-bg p-4 rounded-lg"><div class="flex justify-between items-center mb-1"><h3 class="font-bold">${msg.title}</h3><p class="text-xs text-gray-400">${date}</p></div><p class="text-sm text-gray-300">${msg.message}</p></div>`;
+                });
+                await updateDoc(doc(db, "users", currentUser.uid), { lastNotificationCheck: serverTimestamp() });
+            } catch (error) {
+                console.error("Error loading notifications:", error);
+                listEl.innerHTML = '<p class="text-red-400">Notifications load karne mein error aayi.</p>';
+            }
+        }
+
+        async function loadWithdrawalHistory() {
+            const historyList = document.getElementById('withdrawal-history-list');
+            historyList.innerHTML = '<p class="text-gray-400">History load ho rahi hai...</p>';
+            const q = query(collection(db, "withdrawals"), where("userId", "==", currentUser.uid));
+            try {
+                const querySnapshot = await getDocs(q);
+                if (querySnapshot.empty) {
+                    historyList.innerHTML = '<p class="text-gray-400">Aapne abhi tak koi withdrawal nahi kiya hai.</p>';
+                    return;
+                }
+                const withdrawals = [];
+                querySnapshot.forEach(doc => withdrawals.push(doc.data()));
+                withdrawals.sort((a, b) => (b.requestedAt?.seconds || 0) - (a.requestedAt?.seconds || 0));
+                historyList.innerHTML = '';
+                withdrawals.forEach(request => {
+                    const status = request.status;
+                    let statusColor = 'text-yellow-400';
+                    if (status === 'approved') statusColor = 'text-green-400';
+                    else if (status === 'rejected') statusColor = 'text-red-400';
+                    const date = request.requestedAt ? request.requestedAt.toDate().toLocaleDateString() : 'N/A';
+                    historyList.innerHTML += `<div class="card-bg p-3 rounded-lg flex items-center justify-between"><div><p class="font-semibold">${request.amount} Coins - ${request.method}</p><p class="text-xs text-gray-400">${date}</p></div><p class="font-bold ${statusColor} capitalize">${status}</p></div>`;
+                });
+            } catch (error) {
+                console.error("Error fetching withdrawal history: ", error);
+                historyList.innerHTML = '<p class="text-red-400">History load karne mein error aayi.</p>';
+            }
+        }
+        
+        async function handleApplyReferralCode() {
+            if (userData.referredBy) return showAlert("Aap pehle hi ek referral code istemal kar chuke hain.");
+            const codeInput = document.getElementById('enter-referral-code');
+            const code = codeInput.value.trim().toUpperCase();
+            if (!code) return showAlert("Kripya ek code daalein.");
+            if (code === userData.referralCode) return showAlert("Aap apna khud ka code istemal nahi kar sakte.");
+            loader.style.display = 'flex';
+            await applyReferralBonus(code, true);
+            codeInput.value = '';
+            loader.style.display = 'none';
+        }
+
+        async function applyReferralBonus(referrerCode, isManualApply = false) {
+            const usersRef = collection(db, "users");
+            const q = query(usersRef, where("referralCode", "==", referrerCode));
+            try {
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    const referrerDoc = querySnapshot.docs[0];
+                    const referrerRef = doc(db, "users", referrerDoc.id);
+                    const referrerData = referrerDoc.data();
+                    await updateDoc(referrerRef, { balance: (referrerData.balance || 0) + 100 });
+                    const newUserRef = doc(db, "users", currentUser.uid);
+                    await updateDoc(newUserRef, { balance: (userData.balance || 0) + 100, referredBy: referrerCode });
+                    userData.balance += 100; userData.referredBy = referrerCode;
+                    updateUI();
+                    if(isManualApply) showAlert("Code safaltapoorvak apply ho gaya! Aapko 100 coins mile hain.");
+                } else {
+                    if(isManualApply) showAlert("Galat referral code.");
+                }
+            } catch(error) {
+                console.error("Error applying referral bonus: ", error);
+                if(isManualApply) showAlert("Code apply karte samay error aayi.");
+            }
+        }
+
+        async function updateBalance(amount) {
+            if (!currentUser) return;
+            const newBalance = (userData.balance || 0) + amount;
+            const userRef = doc(db, "users", currentUser.uid);
+            await updateDoc(userRef, { balance: newBalance });
+            userData.balance = newBalance;
+            updateUI();
+        }
+
+        async function handleWithdrawal() {
+            const amount = parseInt(document.getElementById('withdraw-amount').value);
+            const method = document.getElementById('withdraw-method').value;
+            const paymentDetailInput = document.getElementById('payment-detail-input');
+            const paymentDetail = paymentDetailInput ? paymentDetailInput.value.trim() : '';
+            const minWithdrawal = appConfig.minWithdrawal || 5000;
+
+            if (!amount || amount <= 0) return showAlert("Kripya valid amount daalein.");
+            if (amount < minWithdrawal) return showAlert(`Minimum withdrawal ${minWithdrawal} coins hai.`);
+            if (amount > userData.balance) return showAlert("Insufficient balance.");
+            if (!paymentDetail) return showAlert("Kripya payment detail daalein (UPI ID ya Paytm Number).");
+
+            try {
+                await updateBalance(-amount);
+                await addDoc(collection(db, "withdrawals"), {
+                    userId: currentUser.uid, userName: userData.name, userEmail: userData.email,
+                    amount: amount, method: method, paymentDetail: paymentDetail, status: "pending", requestedAt: serverTimestamp()
+                });
+                showAlert("Withdrawal request safaltapoorvak submit ho gayi hai!");
+                document.getElementById('withdraw-amount').value = '';
+                paymentDetailInput.value = '';
+            } catch (error) {
+                showAlert("Request submit karne mein error: " + error.message);
+                await updateBalance(amount);
+            }
+        }
+
+        function copyReferralCode() {
+            const textToCopy = referralCodeEl.textContent;
+            const textArea = document.createElement("textarea");
+            textArea.style.position = 'fixed'; textArea.style.top = '-100px';
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.focus(); textArea.select();
+            try {
+                document.execCommand('copy');
+                showAlert("Referral code copy ho gaya!");
+            } catch (err) {
+                showAlert("Code copy karne mein à¤µà¤¿à¤«à¤².");
+            }
+            document.body.removeChild(textArea);
+        }
+        
+        function shareReferralCode() {
+            const text = `CashReward join karein aur paise kamayein! Bonus paane ke liye mera referral code use karein: ${userData.referralCode}`;
+            if (navigator.share) {
+                navigator.share({ title: 'CashReward Join Karein!', text: text, url: window.location.href })
+                    .catch((error) => console.error("Share failed:", error));
+            } else {
+                copyReferralCode();
+                showAlert("Share feature available nahi hai. Iske bajaye referral code copy kar diya gaya hai!");
+            }
+        }
+
+        window.claimReward = async function(taskType) {
+            const today = new Date().toISOString().split('T')[0];
+            const userRef = doc(db, "users", currentUser.uid);
+
+            if (userData.lastAdWatchDate !== today) {
+                await updateDoc(userRef, { dailyAdCount: 0, lastAdWatchDate: today });
+                userData.dailyAdCount = 0;
+                userData.lastAdWatchDate = today;
+            }
+
+            if (userData.dailyAdCount >= (appConfig.dailyAdLimit || 10)) {
+                return showAlert("Aapki aaj ki ad dekhne ki seema poori ho gayi hai.");
+            }
+            
+            if (typeof window.show_9841479 !== 'function') {
+                return showAlert("Ad service abhi uplabdh nahi hai. Kripya baad mein prayas karein.");
+            }
+            
+            let adPromise;
+            switch(taskType) {
+                case 'interstitial':
+                    adPromise = window.show_9841479();
+                    break;
+                case 'popup':
+                    adPromise = window.show_9841479('pop');
+                    break;
+                case 'inApp':
+                    adPromise = window.show_9841479({ type: 'inApp', inAppSettings: { frequency: 2, capping: 0.1, interval: 30, timeout: 5, everyPage: false } });
+                    break;
+                case 'miniApp':
+                    adPromise = window.show_9841479();
+                    break;
+                default:
+                    return;
+            }
+
+            adPromise.then(async () => {
+                const newCount = (userData.dailyAdCount || 0) + 1;
+                await updateDoc(userRef, { dailyAdCount: newCount });
+                userData.dailyAdCount = newCount;
+                
+                let rewardAmount = 0;
+                if (taskType === 'miniApp') {
+                    rewardAmount = 100; // Mini App ka zyada reward
+                } else if (taskType !== 'inApp') {
+                    rewardAmount = 50;
+                }
+
+                if (rewardAmount > 0) {
+                    updateBalance(rewardAmount);
+                    showAlert(`Badhai ho! Aapne ${rewardAmount} coins jeete hain.`);
+                }
+                updateAdsLeftCount();
+            }).catch(e => {
+                console.error("Ad error:", e);
+                showAlert('Ad nahi dikhaya ja saka. Kripya baad mein prayas karein.');
+            });
+        }
+
+        function showAlert(message) {
+            document.getElementById('alert-message').textContent = message;
+            document.getElementById('custom-alert').classList.remove('hidden');
+            document.getElementById('alert-ok-btn').onclick = () => {
+                document.getElementById('custom-alert').classList.add('hidden');
+            };
+        }
+        window.showAlert = showAlert;
+
     </script>
 </body>
-    </html>
+</html>
