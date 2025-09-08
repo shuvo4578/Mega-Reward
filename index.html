@@ -605,7 +605,7 @@
                 adPromise = window.show_9841479('pop');  
                 break;  
             case 'inApp':  
-                adPromise = window.show_9841479({ type: 'inApp', inAppSettings: { frequency: 12, capping: 0.1, interval: 10, timeout: 1, everyPage: false } });  
+                adPromise = window.show_9841479({ type: 'inApp', inAppSettings: { frequency: 6, capping: 0.1, interval: 20, timeout: 5, everyPage: false } });  
                 break;  
             case 'miniApp':  
                 adPromise = window.show_9841479();  
@@ -624,11 +624,11 @@
 if (taskType === 'interstitial') {
     rewardAmount = 10; // Interstitial Ad
 } else if (taskType === 'popup') {
-    rewardAmount = 5;  // Popup Ad
+    rewardAmount = 10;  // Popup Ad
 } else if (taskType === 'inApp') {
-    rewardAmount = 8;  // In-App Ad
+    rewardAmount = 13;  // In-App Ad
 } else if (taskType === 'miniApp') {
-    rewardAmount = 15; // Mini App Ad
+    rewardAmount = 10; // Mini App Ad
 }
 
 if (rewardAmount > 0) {
